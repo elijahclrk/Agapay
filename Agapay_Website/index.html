@@ -1348,12 +1348,12 @@
                     </article>
 
                     <article class="campaign-card hidden-card" data-category="Books">
-                        <a href="#" aria-label="Community Storybooks">
-                            <img class="card-img" src="assets/A1.jpg" alt="Community Storybooks">
+                        <a href="#campaign-storybooks" aria-label="Community Storybooks">
+                            <img class="card-img" src="assets/communitystorybooks.jpg" alt="Community Storybooks">
                         </a>
                         <div class="card-body">
                             <span class="card-tag">Books</span>
-                            <h3 class="card-title"><a href="#">Community Storybooks</a></h3>
+                            <h3 class="card-title"><a href="#campaign-storybooks">Community Storybooks</a></h3>
                             <p class="card-desc">Provide illustrated storybooks to children in remote communities.</p>
                             <div class="progress" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
                                 <div class="progress-fill" style="width: 30%;"></div>
@@ -1363,12 +1363,12 @@
                     </article>
 
                     <article class="campaign-card hidden-card" data-category="School Supplies">
-                        <a href="#" aria-label="Backpack Drive 2026">
-                            <img class="card-img" src="assets/A2.jpg" alt="Backpack Drive 2026">
+                       <a href="#campaign-backpack" aria-label="Backpack Drive 2026">
+                            <img class="card-img" src="assets/backpack.jpg" alt="Backpack Drive 2026">
                         </a>
                         <div class="card-body">
                             <span class="card-tag">School Supplies</span>
-                            <h3 class="card-title"><a href="#">Backpack Drive 2026</a></h3>
+                            <h3 class="card-title"><a href="#campaign-backpack">Backpack Drive 2026</a></h3>
                             <p class="card-desc">Help equip 500 students with brand new backpacks and supplies.</p>
                             <div class="progress" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
                                 <div class="progress-fill" style="width: 50%;"></div>
@@ -1378,12 +1378,12 @@
                     </article>
 
                     <article class="campaign-card hidden-card" data-category="Facilities">
-                        <a href="#" aria-label="Computer Lab Renovation">
-                            <img class="card-img" src="assets/A3.jpg" alt="Computer Lab Renovation">
+                       <a href="#campaign-computer" aria-label="Computer Lab Renovation">
+                            <img class="card-img" src="assets/comlab.jpg" alt="Computer Lab Renovation">
                         </a>
                         <div class="card-body">
                             <span class="card-tag">Facilities</span>
-                            <h3 class="card-title"><a href="#">Computer Lab Renovation</a></h3>
+                            <h3 class="card-title"><a href="#campaign-computer">Computer Lab Renovation</a></h3>
                             <p class="card-desc">Upgrade the computer lab to help students learn digital literacy.</p>
                             <div class="progress" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
                                 <div class="progress-fill" style="width: 20%;"></div>
@@ -1987,6 +1987,285 @@
                     </form>
                 </section>
             </div>
+        </div>
+    </main>
+
+    <main id="campaign-storybooks" class="page">
+        <input type="checkbox" id="donate-storybooks" class="donate-toggle" hidden>
+        <div class="wrap">
+            <h1 class="detail-title">Community Storybooks</h1>
+            <div class="detail-meta"><span>👤 Agapay Foundation</span><span>📍 Metro Manila</span><span>🏷️ Books</span></div>
+            <div class="detail-layout">
+                <section class="detail-main">
+                    <div class="detail-tabs">
+                        <label class="tab-btn"><input type="radio" name="ct-storybooks" class="ct-story" checked>Story</label>
+                        <label class="tab-btn"><input type="radio" name="ct-storybooks" class="ct-update">Update</label>
+                        <label class="tab-btn"><input type="radio" name="ct-storybooks" class="ct-donors">Donors</label>
+                    </div>
+                    <div class="tab-panel p-story">
+                        <img class="story-img" src="assets/communitystorybooks.jpg" alt="">
+                        <div class="story-text">
+                            <p>Provide illustrated storybooks to children in remote communities.</p>
+                        </div>
+                        <div class="organizer-card">
+                            <img class="avatar lg" src="assets/communitystorybooks.jpg" alt="Agapay logo">
+                            <div><strong>Agapay Foundation</strong><span>Campaign organizer</span></div>
+                        </div>
+                    </div>
+                    <div class="tab-panel p-update">
+                        <ul class="timeline">
+                            <li class="timeline-item"><div class="timeline-date">Oct 10, 2026</div>
+                                <div class="timeline-body"><h3>Campaign Launched</h3><p>We just launched the Community Storybooks drive!</p></div></li>
+                        </ul>
+                    </div>
+                    <div class="tab-panel p-donors">
+                        <ul class="donor-list">
+                            <li class="donor-card"><div class="avatar"></div>
+                                <div class="donor-info"><strong>Anonymous</strong><span>5 days ago</span></div>
+                                <div class="donor-amount"><span>Donated:</span><strong>₱3,000</strong></div></li>
+                        </ul>
+                    </div>
+                </section>
+                <aside class="donate-card">
+                    <div class="raised-row">
+                        <div class="donut" style="--pct: 30;"><span>30%</span></div>
+                        <div><h2>₱3,000</h2><p>raised of ₱10,000 needed</p></div>
+                    </div>
+                    <label for="donate-storybooks" class="btn-pill btn-primary">Donate Now</label>
+                    <input type="button" value="Share" class="btn-pill btn-secondary">
+                </aside>
+            </div>
+        </div>
+        
+        <div class="donate-modal">
+            <label for="donate-storybooks" class="modal-backdrop"></label>
+            <form class="modal-box donate-form" action="#donation-thanks">
+                <label for="donate-storybooks" class="modal-close">&times;</label>
+                <div class="form-body">
+                    <h2>Make a Donation</h2>
+                    <p class="modal-sub">Send your donation first, then confirm it below.</p>
+                    <p class="modal-label">1. Which app did you use?</p>
+                    <div class="pill-options">
+                        <label><input type="radio" name="method" value="GCash" class="m-gcash" checked><span>GCash</span></label>
+                        <label><input type="radio" name="method" value="Maya" class="m-maya"><span>Maya</span></label>
+                        <label><input type="radio" name="method" value="Bank Transfer" class="m-bank"><span>Bank</span></label>
+                        <label><input type="radio" name="method" value="Other" class="m-other"><span>Other</span></label>
+                    </div>
+                    <div class="send-box">
+                        <div class="qr">QR</div>
+                        <div>
+                            <strong>Send your donation to:</strong>
+                            <p class="send for-gcash">Agapay Foundation<br>0900 000 0000</p>
+                            <p class="send for-maya">Agapay Foundation<br>0900 000 0000</p>
+                            <p class="send for-bank">Agapay Foundation<br>Bank name · 0000 0000 00</p>
+                            <p class="send for-other">Contact us for other ways to give</p>
+                        </div>
+                    </div>
+                    <p class="modal-label">2. Amount you sent</p>
+                    <div class="pill-options">
+                        <label><input type="radio" name="amount" value="100"><span>₱100</span></label>
+                        <label><input type="radio" name="amount" value="500" checked><span>₱500</span></label>
+                        <label><input type="radio" name="amount" value="1000"><span>₱1,000</span></label>
+                        <label><input type="radio" name="amount" value="5000"><span>₱5,000</span></label>
+                    </div>
+                    <input class="plain-input" type="number" name="custom" min="1" placeholder="Other amount (₱) — leave blank to use the one above">
+                    <label class="field"><span>3. Reference number</span>
+                        <input type="text" name="ref" required minlength="6" placeholder="e.g. 1234 567 890123" autocomplete="off"></label>
+                    <div class="field-row">
+                        <label class="field"><span>Full name</span><input type="text" name="name" required placeholder="Juan Dela Cruz"></label>
+                        <label class="field"><span>Email</span><input type="email" name="email" required placeholder="you@email.com"></label>
+                    </div>
+                    <label class="field"><span>Message (optional)</span><textarea name="message" rows="2" placeholder="Words of encouragement for the student"></textarea></label>
+                    <label class="check"><input type="checkbox" name="anonymous"> Donate anonymously</label>
+                    <button type="submit" class="btn-pill btn-primary">Confirm donation</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <main id="campaign-backpack" class="page">
+        <input type="checkbox" id="donate-backpack" class="donate-toggle" hidden>
+        <div class="wrap">
+            <h1 class="detail-title">Backpack Drive 2026</h1>
+            <div class="detail-meta"><span>👤 Agapay Foundation</span><span>📍 Luzon</span><span>🏷️ School Supplies</span></div>
+            <div class="detail-layout">
+                <section class="detail-main">
+                    <div class="detail-tabs">
+                        <label class="tab-btn"><input type="radio" name="ct-backpack" class="ct-story" checked>Story</label>
+                        <label class="tab-btn"><input type="radio" name="ct-backpack" class="ct-update">Update</label>
+                        <label class="tab-btn"><input type="radio" name="ct-backpack" class="ct-donors">Donors</label>
+                    </div>
+                    <div class="tab-panel p-story">
+                        <img class="story-img" src="assets/backpack.jpg" alt="">
+                        <div class="story-text">
+                            <p>Help equip 500 students with brand new backpacks and supplies.</p>
+                        </div>
+                        <div class="organizer-card">
+                            <img class="avatar lg" src="assets/backpack.jpg" alt="Backpack Drive 2026">
+                            <div><strong>Agapay Foundation</strong><span>Campaign organizer</span></div>
+                        </div>
+                    </div>
+                    <div class="tab-panel p-update">
+                        <ul class="timeline">
+                            <li class="timeline-item"><div class="timeline-date">Oct 12, 2026</div>
+                                <div class="timeline-body"><h3>Campaign Launched</h3><p>We just launched the Backpack Drive!</p></div></li>
+                        </ul>
+                    </div>
+                    <div class="tab-panel p-donors">
+                        <ul class="donor-list">
+                            <li class="donor-card"><div class="avatar"></div>
+                                <div class="donor-info"><strong>Anonymous</strong><span>5 days ago</span></div>
+                                <div class="donor-amount"><span>Donated:</span><strong>₱15,000</strong></div></li>
+                        </ul>
+                    </div>
+                </section>
+                <aside class="donate-card">
+                    <div class="raised-row">
+                        <div class="donut" style="--pct: 50;"><span>50%</span></div>
+                        <div><h2>₱15,000</h2><p>raised of ₱30,000 needed</p></div>
+                    </div>
+                    <label for="donate-backpack" class="btn-pill btn-primary">Donate Now</label>
+                    <input type="button" value="Share" class="btn-pill btn-secondary">
+                </aside>
+            </div>
+        </div>
+        
+        <div class="donate-modal">
+            <label for="donate-backpack" class="modal-backdrop"></label>
+            <form class="modal-box donate-form" action="#donation-thanks">
+                <label for="donate-backpack" class="modal-close">&times;</label>
+                <div class="form-body">
+                    <h2>Make a Donation</h2>
+                    <p class="modal-sub">Send your donation first, then confirm it below.</p>
+                    <p class="modal-label">1. Which app did you use?</p>
+                    <div class="pill-options">
+                        <label><input type="radio" name="method" value="GCash" class="m-gcash" checked><span>GCash</span></label>
+                        <label><input type="radio" name="method" value="Maya" class="m-maya"><span>Maya</span></label>
+                        <label><input type="radio" name="method" value="Bank Transfer" class="m-bank"><span>Bank</span></label>
+                        <label><input type="radio" name="method" value="Other" class="m-other"><span>Other</span></label>
+                    </div>
+                    <div class="send-box">
+                        <div class="qr">QR</div>
+                        <div>
+                            <strong>Send your donation to:</strong>
+                            <p class="send for-gcash">Agapay Foundation<br>0900 000 0000</p>
+                            <p class="send for-maya">Agapay Foundation<br>0900 000 0000</p>
+                            <p class="send for-bank">Agapay Foundation<br>Bank name · 0000 0000 00</p>
+                            <p class="send for-other">Contact us for other ways to give</p>
+                        </div>
+                    </div>
+                    <p class="modal-label">2. Amount you sent</p>
+                    <div class="pill-options">
+                        <label><input type="radio" name="amount" value="100"><span>₱100</span></label>
+                        <label><input type="radio" name="amount" value="500" checked><span>₱500</span></label>
+                        <label><input type="radio" name="amount" value="1000"><span>₱1,000</span></label>
+                        <label><input type="radio" name="amount" value="5000"><span>₱5,000</span></label>
+                    </div>
+                    <input class="plain-input" type="number" name="custom" min="1" placeholder="Other amount (₱) — leave blank to use the one above">
+                    <label class="field"><span>3. Reference number</span>
+                        <input type="text" name="ref" required minlength="6" placeholder="e.g. 1234 567 890123" autocomplete="off"></label>
+                    <div class="field-row">
+                        <label class="field"><span>Full name</span><input type="text" name="name" required placeholder="Juan Dela Cruz"></label>
+                        <label class="field"><span>Email</span><input type="email" name="email" required placeholder="you@email.com"></label>
+                    </div>
+                    <label class="field"><span>Message (optional)</span><textarea name="message" rows="2" placeholder="Words of encouragement for the student"></textarea></label>
+                    <label class="check"><input type="checkbox" name="anonymous"> Donate anonymously</label>
+                    <button type="submit" class="btn-pill btn-primary">Confirm donation</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <main id="campaign-computer" class="page">
+        <input type="checkbox" id="donate-computer" class="donate-toggle" hidden>
+        <div class="wrap">
+            <h1 class="detail-title">Computer Lab Renovation</h1>
+            <div class="detail-meta"><span>👤 Agapay Foundation</span><span>📍 Quezon City</span><span>🏷️ Facilities</span></div>
+            <div class="detail-layout">
+                <section class="detail-main">
+                    <div class="detail-tabs">
+                        <label class="tab-btn"><input type="radio" name="ct-computer" class="ct-story" checked>Story</label>
+                        <label class="tab-btn"><input type="radio" name="ct-computer" class="ct-update">Update</label>
+                        <label class="tab-btn"><input type="radio" name="ct-computer" class="ct-donors">Donors</label>
+                    </div>
+                    <div class="tab-panel p-story">
+                        <img class="story-img" src="assets/comlab.jpg" alt="">
+                        <div class="story-text">
+                            <p>Upgrade the computer lab to help students learn digital literacy.</p>
+                        </div>
+                        <div class="organizer-card">
+                            <img class="avatar lg" src="assets/comlab.jpg" alt="Agapay logo">
+                            <div><strong>Agapay Foundation</strong><span>Campaign organizer</span></div>
+                        </div>
+                    </div>
+                    <div class="tab-panel p-update">
+                        <ul class="timeline">
+                            <li class="timeline-item"><div class="timeline-date">Oct 15, 2026</div>
+                                <div class="timeline-body"><h3>Campaign Launched</h3><p>We just launched the Computer Lab Renovation project!</p></div></li>
+                        </ul>
+                    </div>
+                    <div class="tab-panel p-donors">
+                        <ul class="donor-list">
+                            <li class="donor-card"><div class="avatar"></div>
+                                <div class="donor-info"><strong>Anonymous</strong><span>5 days ago</span></div>
+                                <div class="donor-amount"><span>Donated:</span><strong>₱5,000</strong></div></li>
+                        </ul>
+                    </div>
+                </section>
+                <aside class="donate-card">
+                    <div class="raised-row">
+                        <div class="donut" style="--pct: 20;"><span>20%</span></div>
+                        <div><h2>₱5,000</h2><p>raised of ₱25,000 needed</p></div>
+                    </div>
+                    <label for="donate-computer" class="btn-pill btn-primary">Donate Now</label>
+                    <input type="button" value="Share" class="btn-pill btn-secondary">
+                </aside>
+            </div>
+        </div>
+        
+        <div class="donate-modal">
+            <label for="donate-computer" class="modal-backdrop"></label>
+            <form class="modal-box donate-form" action="#donation-thanks">
+                <label for="donate-computer" class="modal-close">&times;</label>
+                <div class="form-body">
+                    <h2>Make a Donation</h2>
+                    <p class="modal-sub">Send your donation first, then confirm it below.</p>
+                    <p class="modal-label">1. Which app did you use?</p>
+                    <div class="pill-options">
+                        <label><input type="radio" name="method" value="GCash" class="m-gcash" checked><span>GCash</span></label>
+                        <label><input type="radio" name="method" value="Maya" class="m-maya"><span>Maya</span></label>
+                        <label><input type="radio" name="method" value="Bank Transfer" class="m-bank"><span>Bank</span></label>
+                        <label><input type="radio" name="method" value="Other" class="m-other"><span>Other</span></label>
+                    </div>
+                    <div class="send-box">
+                        <div class="qr">QR</div>
+                        <div>
+                            <strong>Send your donation to:</strong>
+                            <p class="send for-gcash">Agapay Foundation<br>0900 000 0000</p>
+                            <p class="send for-maya">Agapay Foundation<br>0900 000 0000</p>
+                            <p class="send for-bank">Agapay Foundation<br>Bank name · 0000 0000 00</p>
+                            <p class="send for-other">Contact us for other ways to give</p>
+                        </div>
+                    </div>
+                    <p class="modal-label">2. Amount you sent</p>
+                    <div class="pill-options">
+                        <label><input type="radio" name="amount" value="100"><span>₱100</span></label>
+                        <label><input type="radio" name="amount" value="500" checked><span>₱500</span></label>
+                        <label><input type="radio" name="amount" value="1000"><span>₱1,000</span></label>
+                        <label><input type="radio" name="amount" value="5000"><span>₱5,000</span></label>
+                    </div>
+                    <input class="plain-input" type="number" name="custom" min="1" placeholder="Other amount (₱) — leave blank to use the one above">
+                    <label class="field"><span>3. Reference number</span>
+                        <input type="text" name="ref" required minlength="6" placeholder="e.g. 1234 567 890123" autocomplete="off"></label>
+                    <div class="field-row">
+                        <label class="field"><span>Full name</span><input type="text" name="name" required placeholder="Juan Dela Cruz"></label>
+                        <label class="field"><span>Email</span><input type="email" name="email" required placeholder="you@email.com"></label>
+                    </div>
+                    <label class="field"><span>Message (optional)</span><textarea name="message" rows="2" placeholder="Words of encouragement for the student"></textarea></label>
+                    <label class="check"><input type="checkbox" name="anonymous"> Donate anonymously</label>
+                    <button type="submit" class="btn-pill btn-primary">Confirm donation</button>
+                </div>
+            </form>
         </div>
     </main>
 
