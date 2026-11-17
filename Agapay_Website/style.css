@@ -1183,3 +1183,38 @@ body.is-admin:has(#admin:target) .site-footer { display: none; }
 
 .awareness-page-inline,
 .awareness-page { background-color: #ffffff; }
+
+.hidden-card {
+    display: none !important;
+}
+
+.campaign-grid.show-all .hidden-card {
+    display: flex !important;
+}
+
+#donation:has(#cat-books:checked) .campaign-card.hidden-card[data-category="Books"],
+#donation:has(#cat-school-supplies:checked) .campaign-card.hidden-card[data-category="School Supplies"],
+#donation:has(#cat-facilities:checked) .campaign-card.hidden-card[data-category="Facilities"] {
+    display: flex !important;
+}
+
+#donation:has(#cat-books:checked) .campaign-card:not([data-category="Books"]),
+#donation:has(#cat-school-supplies:checked) .campaign-card:not([data-category="School Supplies"]),
+#donation:has(#cat-facilities:checked) .campaign-card:not([data-category="Facilities"]) {
+    display: none !important;
+}
+
+#donation:has(#cat-books:checked) .show-more-wrap,
+#donation:has(#cat-school-supplies:checked) .show-more-wrap,
+#donation:has(#cat-facilities:checked) .show-more-wrap {
+    display: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 0 !important;
+    flex: none !important;
+}
+
+#donation:has(#cat-books:checked) .campaigns,
+#donation:has(#cat-school-supplies:checked) .campaigns,
+#donation:has(#cat-facilities:checked) .campaigns {
+    padding-bottom: 40px !important; 

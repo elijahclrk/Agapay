@@ -153,4 +153,25 @@
     /* ---------- start ---------- */
     applySession(getSession());
     guardRoute();
+
+        /* ---------- donation page show more toggle ---------- */
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById("toggle-campaigns");
+        const campaignGrid = document.querySelector(".campaigns .campaign-grid");
+
+        if (toggleBtn && campaignGrid) {
+            toggleBtn.addEventListener("click", function() {
+                // Toggle the 'show-all' class on the grid
+                campaignGrid.classList.toggle("show-all");
+
+                // Change the text
+                if (campaignGrid.classList.contains("show-all")) {
+                    toggleBtn.textContent = "Show less";
+                } else {
+                    toggleBtn.textContent = "Show more";
+                }
+            });
+        }
+    });
+
 })();
