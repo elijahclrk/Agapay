@@ -174,4 +174,46 @@
         }
     });
 
+        /* ---------- donation form validation alert ---------- */
+    window.handleDonation = function(event, formElement) {
+        // 1. Stop the form from actually submitting and jumping pages
+        event.preventDefault();
+
+        // 2. Show the success alert
+        alert("Thank you for your donation! Your confirmation has been received. Our team will verify your transaction shortly.");
+
+        // 3. Close the modal by unchecking the hidden checkbox
+        const modalToggleId = formElement.closest('.page').querySelector('.donate-toggle').id;
+        document.getElementById(modalToggleId).checked = false;
+
+        // 4. Optionally, reset the form so it's clean for next time
+        formElement.reset();
+    };
+    
+        /* ---------- awareness page  ---------- */
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // --- NEWS SECTION ---
+        const newsBtn = document.getElementById("news-btn");
+        const newsGrid = document.getElementById("news-grid");
+
+        if (newsBtn && newsGrid) {
+            newsBtn.addEventListener("click", function() {
+                newsGrid.classList.toggle("show-all");
+                newsBtn.textContent = newsGrid.classList.contains("show-all") ? "Show less" : "Show more";
+            });
+        }
+
+        // --- BLOG SECTION ---
+        const blogBtn = document.getElementById("blog-btn");
+        const blogGrid = document.getElementById("blog-grid");
+
+        if (blogBtn && blogGrid) {
+            blogBtn.addEventListener("click", function() {
+                blogGrid.classList.toggle("show-all");
+                blogBtn.textContent = blogGrid.classList.contains("show-all") ? "Show less" : "Show more";
+            });
+        }
+
+    });
 })();
