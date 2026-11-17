@@ -163,3 +163,53 @@ td strong { color: #2e3d51; font-size: 11px; }
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* --- Expandable table rows (admin.js) --- */
+tr.is-expandable { cursor: pointer; }
+tr.is-expandable:hover td,
+tr.is-expandable[aria-expanded="true"] td { background: #f5f8fb; }
+tr.is-expandable:focus-visible { outline: 2px solid var(--admin-blue); outline-offset: -2px; }
+tr.row-details td { padding: 12px 14px; background: #f5f8fb; white-space: normal; }
+.detail-list { display: flex; flex-wrap: wrap; gap: 6px 28px; margin: 0; }
+.detail-list span { color: #56667a; font-size: 11px; }
+.detail-list b { color: #2e3d51; }
+
+/* ==========================================================
+   DESIGN ALIGNMENT with the user pages (style.css)
+   Same border radius, border color, shadow, heading font and
+   palette (--blue #315b91, --bg #EAF4FF) as the public site.
+   ========================================================== */
+:root {
+    --admin-blue: #315b91;
+    --admin-blue-dark: #24487a;
+    --admin-line: #cfe0f5;
+    --site-radius: 14px;      /* cards / panels (user site uses 12-16px) */
+    --site-radius-sm: 10px;   /* inputs, small cards */
+    --site-shadow: 0 4px 14px rgba(49, 91, 145, 0.12);
+}
+
+/* Cards and panels */
+.panel,
+.metric,
+.quick-links a,
+.sidebar-help {
+    border: 1px solid var(--admin-line);
+    border-radius: var(--site-radius);
+    box-shadow: var(--site-shadow);
+}
+.quick-links a { border-radius: var(--site-radius-sm); box-shadow: none; }
+.sidebar-help { box-shadow: none; border-radius: var(--site-radius-sm); }
+.admin-sidebar { border-right: 1px solid var(--admin-line); }
+.table-scroll { border-radius: var(--site-radius-sm); }
+th, td { border-color: #e0e8f1; }
+
+/* Buttons and nav links: pill / rounded like the site buttons */
+.secondary-button { border-radius: 999px; }
+.admin-nav-link { border-radius: var(--site-radius-sm); }
+
+/* Icon chips, inputs and status dropdowns */
+.metric-icon, .quick-icon, .report-icon { border-radius: var(--site-radius-sm); }
+.status-select, .expiry-field { border-radius: 8px; border-color: var(--admin-line); }
+
+/* Headings use the same blue as the public pages */
+.admin-main h1, .admin-main h2 { color: var(--admin-blue); }

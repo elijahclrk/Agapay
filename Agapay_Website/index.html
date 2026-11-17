@@ -10,8 +10,6 @@
 </head>
 <body style="display:flex; flex-direction:column; margin:0; font-family: Arial, sans-serif; background-color:#EAF4FF; font-size:16px;">
 
-    <input type="checkbox" id="session" hidden>
-
     <header class="site-header">
         <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden>
 
@@ -67,9 +65,9 @@
                 <ul class="dropdown account-dropdown">
                     <li class="guest-only"><a href="#login">Log In</a></li>
                     <li class="guest-only"><a href="#signup">Sign Up</a></li>
-                    <li class="member-only"><a href="#profile">My Profile</a></li>
-                    <li class="member-only"><a href="#admin">Admin</a></li>
-                    <li class="member-only"><a href="#login"><label for="session">Log Out</label></a></li>
+                    <li class="user-only"><a href="#profile">My Profile</a></li>
+                    <li class="admin-only"><a href="#admin">Admin Dashboard</a></li>
+                    <li class="member-only"><a href="#login" data-logout>Log Out</a></li>
                 </ul>
             </div>
 
@@ -1896,10 +1894,10 @@
         <div class="wrap">
 
             <section class="profile-banner">
-                <div class="profile-initials">JD</div>
+                <div class="profile-initials" id="profile-initials">JD</div>
                 <div class="profile-banner-text">
-                    <h1>Juan Dela Cruz</h1>
-                    <p>juan@email.com</p>
+                    <h1 id="profile-name">Juan Dela Cruz</h1>
+                    <p id="profile-email">juan@email.com</p>
                     <span class="member-since">Member since September 2022</span>
                 </div>
                 <div class="profile-stats">
@@ -1916,7 +1914,7 @@
                     <label class="menu-btn"><input type="radio" name="pf" id="pf-donations">My Donations</label>
                     <label class="menu-btn"><input type="radio" name="pf" id="pf-volunteer">My Volunteerism</label>
                     <label class="menu-btn"><input type="radio" name="pf" id="pf-security">Password &amp; Security</label>
-                    <a href="#login" class="menu-btn"><label for="session">Log Out</label></a>
+                    <a href="#login" class="menu-btn" data-logout>Log Out</a>
                 </nav>
 
                 <section class="profile-content">
@@ -1925,14 +1923,14 @@
                         <h2 class="panel-title">Personal Info</h2>
                         <form action="#">
                             <div class="field-row">
-                                <label class="field"><span>First name</span><input type="text" value="Juan" readonly></label>
-                                <label class="field"><span>Last name</span><input type="text" value="Dela Cruz" readonly></label>
-                                <label class="field"><span>Email</span><input type="email" value="juan@email.com" readonly></label>
+                                <label class="field"><span>First name</span><input type="text" value="Juan" data-profile="firstName" readonly></label>
+                                <label class="field"><span>Last name</span><input type="text" value="Dela Cruz" data-profile="lastName" readonly></label>
+                                <label class="field"><span>Email</span><input type="email" value="juan@email.com" data-profile="email" readonly></label>
                                 <label class="field"><span>Phone number</span><input type="tel" value="0900 000 0000" readonly></label>
-                                <label class="field"><span>City</span><input type="text" value="Antipolo" readonly></label>
+                                <label class="field"><span>City</span><input type="text" value="Antipolo" data-profile="city" readonly></label>
                                 <label class="field"><span>Birthday</span><input type="date"></label>
                             </div>
-                            <label class="field"><span>Full address</span><input type="text" value="Antipolo" readonly></label>
+                            <label class="field"><span>Full address</span><input type="text" value="Antipolo" data-profile="city" readonly></label>
                             <label class="field"><span>About me</span><textarea rows="3" placeholder="Tell us a little about yourself"></textarea></label>
                             <button type="submit" class="btn-pill btn-primary inline">Save changes</button>
                         </form>
@@ -1989,32 +1987,33 @@
             <h1 class="auth-title">Welcome Back!</h1>
             <p class="auth-sub">Log in to continue and make a difference.</p>
 
-            <label class="field">
-                <span>Email</span>
-                <div class="auth-input">
-                    <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                    <input type="email" id="login-email" value="juan@email.com" readonly>
-                </div>
-            </label>
+            <form id="login-form" novalidate>
+                <label class="field">
+                    <span>Email</span>
+                    <div class="auth-input">
+                        <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                        <input type="email" id="login-email" name="email" placeholder="Enter your email" autocomplete="username" required>
+                    </div>
+                </label>
 
-            <label class="field">
-                <span>Password</span>
-                <div class="auth-input">
-                    <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 0 1 6 0v2H9V6z"/></svg>
-                    <input type="password" id="login-password"
-                           placeholder="Enter your password"
-                           required pattern="Juan12345"
-                           title="Demo password: Juan12345">
-                </div>
-            </label>
+                <label class="field">
+                    <span>Password</span>
+                    <div class="auth-input">
+                        <svg class="auth-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM9 6a3 3 0 0 1 6 0v2H9V6z"/></svg>
+                        <input type="password" id="login-password" name="password" placeholder="Enter your password" autocomplete="current-password" required>
+                    </div>
+                </label>
 
-            <a href="#admin" class="btn-pill btn-primary login-submit">
-                <label for="session">Log In</label>
-            </a>
-            <p class="login-hint">Type the demo password to unlock the button.</p>
+                <p id="login-error" class="login-error" role="alert" hidden>Incorrect email or password. Please try again.</p>
+
+                <button type="submit" class="btn-pill btn-primary login-submit">Log In</button>
+            </form>
 
             <p class="auth-switch">Don't have an account? <a href="#signup">Sign Up</a></p>
-            <p class="auth-test-note"><strong>Admin Test account</strong> (for demo only)<br>Email: juan@email.com &nbsp;|&nbsp; Password: Juan12345</p>
+            <p class="auth-test-note"><strong>Demo accounts</strong> (for presentation only)<br>
+                User: juan@email.com &nbsp;|&nbsp; Juan12345<br>
+                User: maria.santos@email.com &nbsp;|&nbsp; Maria12345<br>
+                Admin: admin@agapay.org &nbsp;|&nbsp; Admin12345</p>
         </div>
     </main>
 
@@ -2080,9 +2079,10 @@
         </div>
     </main>
 
-    <!-- Admin Test Account Modal -->    
+    <!-- Admin workspace: only the admin account can see this page (see script.js).
+         The iframe src is filled in by script.js after an admin logs in. -->
     <main id="admin" class="page">
-    <iframe src="admin.html" title="Admin workspace" class="admin-frame"></iframe>
+        <iframe data-src="admin.html" title="Admin workspace" class="admin-frame"></iframe>
     </main>
      
     <!-- Footer -->
@@ -2111,5 +2111,7 @@
             </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

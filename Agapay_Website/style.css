@@ -908,42 +908,31 @@ body:has(.awareness-page-inline:target) #donation:not(:target) { display: none; 
     .auth-card { padding: 28px 18px 22px; }
 }
 
-/* --- ACCOUNT MENU: driven by the persistent #session checkbox --- */
-.member-only { display: none; }
-body:has(#session:checked) .member-only { display: block; }
-body:has(#session:checked) .guest-only  { display: none; }
+/* --- ACCOUNT MENU: driven by the role class script.js puts on <body> ---
+   no class = guest | body.is-user = demo user | body.is-admin = admin */
+.member-only, .user-only, .admin-only { display: none; }
+body.is-user .member-only,
+body.is-admin .member-only { display: block; }
+body.is-user .user-only { display: block; }
+body.is-admin .admin-only { display: block; }
+body.is-user .guest-only,
+body.is-admin .guest-only { display: none; }
 
-/* Labels inside pill-shaped links should fill the whole button */
-.login-submit label,
-.menu-btn label,
-.account-dropdown label {
-    display: block;
-    cursor: inherit;
-}
+/* Profile page is for the demo user account only */
+body:not(.is-user) #profile { display: none; }
 
-/* Hide the profile page while nobody is logged in */
-body:not(:has(#session:checked)) #profile { display: none; }
-
-/* --- LOG IN: the "Log In" link unlocks only when the password is correct --- */
-.login-submit {
-    pointer-events: none;
-    opacity: 0.5;
-    filter: grayscale(0.3);
-    cursor: not-allowed;
-}
-.auth-card:has(#login-password:valid) .login-submit {
-    pointer-events: auto;
-    opacity: 1;
-    filter: none;
-    cursor: pointer;
-}
-.login-hint {
-    margin: 0 0 14px;
+/* --- LOG IN form --- */
+.login-submit { margin-top: 6px; }
+.login-error {
+    margin: 0 0 12px;
+    padding: 8px 12px;
     text-align: center;
     font-size: 13px;
-    color: #6a7f95;
+    color: #a13a3a;
+    background: #fdecec;
+    border: 1px solid #f3c4c4;
+    border-radius: 8px;
 }
-.auth-card:has(#login-password:valid) .login-hint { display: none; }
 
 /* --- Test account note on the Log In page --- */
 .auth-test-note { margin: 18px 0 0; padding: 10px 14px; text-align: center; font-size: 13px; line-height: 1.5; color: var(--blue-dark); background: var(--bg); border: 1px dashed #cfe0f5; border-radius: 10px; }
@@ -1111,13 +1100,9 @@ body .volunteer-page .detail-layout {
 }
 
 .admin-frame { display: block; width: 100%; height: calc(100vh - 80px); border: 0; }
-body:not(:has(#session:checked)) #admin { display: none; }
-body:not(:has(#session:checked)):has(#admin:target) #login,
-body:not(:has(#session:checked)):has(#profile:target) #login { display: flex; }
-body:has(#session:checked):has(#login:target) #login { display: none; }
-body:has(#session:checked):has(#login:target) #admin { display: flex; }
-body:has(#session:checked):has(#admin:target) .site-footer,
-body:has(#session:checked):has(#login:target) .site-footer { display: none; }
+/* Admin workspace is for the admin account only */
+body:not(.is-admin) #admin { display: none; }
+body.is-admin:has(#admin:target) .site-footer { display: none; }
 
 @media (max-width: 900px) {
     body .site-header { padding: 10px 16px; }
