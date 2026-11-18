@@ -148,9 +148,120 @@
         }
     });
 
+    /* ==========================================================
+       Website content from the admin page (admin.html > Website content)
+       The admin saves story text, image and status in localStorage.
+       Here we read it and update the public pages:
+       - cards that already exist (data-content-key) get the new text/image,
+         or are hidden when the admin sets them to Draft
+       - other published items get a new card on the News page
+         (Success story type goes to the Success Stories page)
+       ========================================================== */
+    var CONTENT_KEY = 'agapayContent';
+
+    function loadContent() {
+        try { return JSON.parse(localStorage.getItem(CONTENT_KEY)) || {}; } catch (e) { return {}; }
+    }
+
+    function buildCard(key, record) {
+        var pageId = record.type === 'Success story' ? 'success-stories' : 'news';
+        var grid = document.querySelector('#' + pageId + ' .awareness-grid');
+        if (!grid) { return; }
+
+        var card = document.createElement('article');
+        card.className = 'awareness-card';
+        card.setAttribute('data-content-key', key);
+        card.setAttribute('data-generated', '');
+
+        if (record.image) {
+            var wrap = document.createElement('div');
+            wrap.className = 'awareness-img-wrap';
+            var img = document.createElement('img');
+            img.className = 'awareness-img';
+            img.src = record.image;
+            img.alt = record.title || '';
+            var badge = document.createElement('span');
+            badge.className = 'awareness-badge';
+            badge.textContent = record.type || 'News';
+            wrap.appendChild(img);
+            wrap.appendChild(badge);
+            card.appendChild(wrap);
+        }
+
+        var body = document.createElement('div');
+        body.className = 'awareness-body-content';
+        var date = document.createElement('p');
+        date.className = 'awareness-date';
+        var published = record.published && record.published !== 'Draft' ? record.published
+            : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        date.textContent = (record.image ? '' : (record.type || 'News') + ' \u00b7 ') + published;
+        var title = document.createElement('h3');
+        title.className = 'awareness-card-title';
+        title.textContent = record.title || '';
+        var text = document.createElement('p');
+        text.className = 'awareness-excerpt';
+        text.textContent = record.story || '';
+        var link = document.createElement('a');
+        link.className = 'awareness-link';
+        link.href = '#';
+        link.textContent = 'Read more \u2192';
+        body.appendChild(date);
+        body.appendChild(title);
+        body.appendChild(text);
+        body.appendChild(link);
+        card.appendChild(body);
+
+        grid.insertBefore(card, grid.firstElementChild);
+    }
+
+    function applyContent() {
+        var store = loadContent();
+
+        /* 1. Put every card back to what the HTML says */
+        var cards = document.querySelectorAll('[data-content-key]');
+        Array.prototype.forEach.call(cards, function (card) {
+            if (card.hasAttribute('data-generated')) { card.parentNode.removeChild(card); return; }
+            card.style.display = '';
+            var excerpt = card.querySelector('.awareness-excerpt');
+            var image = card.querySelector('.awareness-img');
+            if (excerpt && excerpt.hasAttribute('data-original')) { excerpt.textContent = excerpt.getAttribute('data-original'); }
+            if (image && image.hasAttribute('data-original')) { image.src = image.getAttribute('data-original'); }
+        });
+
+        /* 2. Apply what the admin saved */
+        Object.keys(store).forEach(function (key) {
+            var record = store[key];
+            if (!record) { return; }
+            var isDraft = record.status === 'Draft';
+            var card = document.querySelector('[data-content-key="' + key + '"]');
+
+            if (card) {
+                if (isDraft) { card.style.display = 'none'; return; }
+                var excerpt = card.querySelector('.awareness-excerpt');
+                var image = card.querySelector('.awareness-img');
+                if (record.story && excerpt) {
+                    if (!excerpt.hasAttribute('data-original')) { excerpt.setAttribute('data-original', excerpt.textContent); }
+                    excerpt.textContent = record.story;
+                }
+                if (record.image && image) {
+                    if (!image.hasAttribute('data-original')) { image.setAttribute('data-original', image.getAttribute('src')); }
+                    image.src = record.image;
+                }
+            } else if (!isDraft && (record.story || record.image)) {
+                buildCard(key, record);
+            }
+        });
+    }
+
+    /* The admin page is in an iframe of this page, so a save there fires "storage" here */
+    window.addEventListener('storage', function (event) {
+        if (event.key === CONTENT_KEY || event.key === null) { applyContent(); }
+    });
+
     window.addEventListener('hashchange', guardRoute);
 
     /* ---------- start ---------- */
     applySession(getSession());
+    applyContent();
     guardRoute();
 })();
