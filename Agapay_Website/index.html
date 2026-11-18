@@ -209,14 +209,14 @@
         </section>
     </main>
 
-    <main id="volunteer-opportunities" class="page volunteer-page">
+        <main id="volunteer-opportunities" class="page volunteer-page">
         <section class="volunteer-content" aria-label="Volunteer opportunities">
             <div class="section-head volunteer-section-head">
                 <h1>Discover Volunteer Opportunities</h1>
                 <p>Make a difference: Empower Every Filipino Child Through Literacy</p>
             </div>
 
-            <div class="volunteer-grid">
+            <div class="volunteer-grid" id="volunteer-grid">
                 <article class="opportunity-card">
                     <a href="#volunteer-reading-buddy" aria-label="Reading Buddy">
                         <img src="assets/books.jpg" alt="Books for a reading session">
@@ -256,7 +256,7 @@
                     </div>
                 </article>
 
-                <article class="opportunity-card">
+                <article class="opportunity-card hidden-opportunity-card">
                     <a href="#volunteer-library-build" aria-label="Library Build Day">
                         <img src="assets/library.jpg" alt="Community library space">
                     </a>
@@ -269,7 +269,7 @@
                     </div>
                 </article>
 
-                <article class="opportunity-card">
+                <article class="opportunity-card hidden-opportunity-card">
                     <a href="#volunteer-orientation" aria-label="Volunteer Orientation">
                         <img src="assets/A3.jpg" alt="Community members joining hands during volunteer orientation">
                     </a>
@@ -282,7 +282,7 @@
                     </div>
                 </article>
 
-                <article class="opportunity-card">
+                <article class="opportunity-card hidden-opportunity-card">
                     <a href="#volunteer-storytelling" aria-label="Storytelling Volunteer">
                         <img src="assets/A1.jpg" alt="Illustrated storybooks for a storytelling session">
                     </a>
@@ -296,7 +296,7 @@
                 </article>
             </div>
             <div class="show-more-wrap">
-                <button class="show-more">Show more</button>
+                <button class="show-more" id="volunteer-btn">Show more</button>
             </div>
             <div class="volunteer-bottom-grid">
                 <section><h2>Who Can Volunteer?</h2><p>Anyone passionate about education can join—students, professionals, and community members. Whether you can teach, mentor, or organize, there is a place for you at Agapay. No prior experience is required, just a willingness to help.</p></section>
@@ -364,7 +364,7 @@
         </div>
         <div class="donate-modal">
             <label for="register-reading-buddy" class="modal-backdrop"></label>
-            <<form class="modal-box" action="#volunteer-opportunities">
+            <form class="modal-box" action="#volunteer-opportunities">
                 <label for="register-reading-buddy" class="modal-close">&times;</label>
                 <div class="form-body">
                     <h2>Register for Reading Buddy</h2>
@@ -1062,7 +1062,7 @@
         </section>
     </main>
 
-    <!-- ========== Success Stories ========== -->
+        <!-- ========== Success Stories ========== -->
     <main id="success-stories" class="page awareness-page-inline">
             <nav class="mobile-subnav" aria-label="Awareness sections">
                 <a href="#news">News &amp; Updates</a>
@@ -1077,7 +1077,7 @@
                 <p class="awareness-subtitle">Real journeys of children, mentors, and communities whose lives were changed by the simple act of learning to read and write.</p>
             </div>
 
-            <div class="awareness-grid">
+            <div class="awareness-grid" id="stories-grid">
                 <article class="awareness-card">
                     <div class="awareness-img-wrap">
                         <img src="assets/A13.jpg" alt="Success story" class="awareness-img">
@@ -1087,7 +1087,7 @@
                         <p class="awareness-date">Quezon City · 2025</p>
                         <h3 class="awareness-card-title">From Non-Reader to Class Valedictorian</h3>
                         <p class="awareness-excerpt">At 9, Ana could not read a single sentence. Today, she leads her class and dreams of becoming a teacher.</p>
-                        <a href="#" class="awareness-link">Read her story →</a>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-1').classList.add('active');" class="awareness-link">Read their story →</a>
                     </div>
                 </article>
 
@@ -1100,7 +1100,7 @@
                         <p class="awareness-date">Manila · 2025</p>
                         <h3 class="awareness-card-title">The Boy Who Read His First Storybook</h3>
                         <p class="awareness-excerpt">At seven, Ben had never owned a book. Six months into Agapay's reading program, he finished his first full storybook — and asked for another.</p>
-                        <a href="#" class="awareness-link">Read his story →</a>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-2').classList.add('active');" class="awareness-link">Read their story →</a>
                     </div>
                 </article>
 
@@ -1113,7 +1113,7 @@
                         <p class="awareness-date">Pasig · 2024</p>
                         <h3 class="awareness-card-title">A Barangay That Built Its Own Library</h3>
                         <p class="awareness-excerpt">With Agapay's help, residents of Barangay Malinao transformed an old shed into a thriving community library.</p>
-                        <a href="#" class="awareness-link">Read their story →</a>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-3').classList.add('active');" class="awareness-link">Read their story →</a>
                     </div>
                 </article>
 
@@ -1126,7 +1126,7 @@
                         <p class="awareness-date">Caloocan · 2024</p>
                         <h3 class="awareness-card-title">The Boy Who Wrote His First Poem</h3>
                         <p class="awareness-excerpt">Marco struggled with words for years. A patient mentor helped him write — and publish — his first poem.</p>
-                        <a href="#" class="awareness-link">Read his story →</a>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-4').classList.add('active');" class="awareness-link">Read their story →</a>
                     </div>
                 </article>
 
@@ -1139,7 +1139,7 @@
                         <p class="awareness-date">Makati · 2024</p>
                         <h3 class="awareness-card-title">A College Student Who Volunteers Every Saturday</h3>
                         <p class="awareness-excerpt">Miguel spends his weekends teaching reading. He says it's the best part of his week — every single week.</p>
-                        <a href="#" class="awareness-link">Read his story →</a>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-5').classList.add('active');" class="awareness-link">Read their story →</a>
                     </div>
                 </article>
 
@@ -1152,13 +1152,52 @@
                         <p class="awareness-date">Navotas · 2023</p>
                         <h3 class="awareness-card-title">Coastal Families Turn to Storybooks</h3>
                         <p class="awareness-excerpt">In a coastal community in Navotas, reading nights have become a weekly tradition — bringing families closer together.</p>
-                        <a href="#" class="awareness-link">Read their story →</a>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-6').classList.add('active');" class="awareness-link">Read their story →</a>
+                    </div>
+                </article>
+
+                <article class="awareness-card hidden-awareness-card">
+                    <div class="awareness-img-wrap">
+                        <img src="assets/readingsesh.jpg" alt="Success story" class="awareness-img">
+                        <span class="awareness-badge">Student</span>
+                    </div>
+                    <div class="awareness-body-content">
+                        <p class="awareness-date">Tondo · 2023</p>
+                        <h3 class="awareness-card-title">A Shy Girl Who Found Her Voice</h3>
+                        <p class="awareness-excerpt">Lia barely spoke in class. After joining a weekend read-aloud circle, she volunteered to read in front of the whole school.</p>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-7').classList.add('active');" class="awareness-link">Read their story →</a>
+                    </div>
+                </article>
+
+                <article class="awareness-card hidden-awareness-card">
+                    <div class="awareness-img-wrap">
+                        <img src="assets/volunteer.jpg" alt="Success story" class="awareness-img">
+                        <span class="awareness-badge">Mentor</span>
+                    </div>
+                    <div class="awareness-body-content">
+                        <p class="awareness-date">Mandaluyong · 2023</p>
+                        <h3 class="awareness-card-title">A Retired Teacher Returns to the Classroom</h3>
+                        <p class="awareness-excerpt">After 35 years in public school, Lola Remedios came back as a volunteer — and now mentors a dozen young readers.</p>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-8').classList.add('active');" class="awareness-link">Read their story →</a>
+                    </div>
+                </article>
+
+                <article class="awareness-card hidden-awareness-card">
+                    <div class="awareness-img-wrap">
+                        <img src="assets/homelibrary.jpg" alt="Success story" class="awareness-img">
+                        <span class="awareness-badge">Parent</span>
+                    </div>
+                    <div class="awareness-body-content">
+                        <p class="awareness-date">Taguig · 2023</p>
+                        <h3 class="awareness-card-title">A Mother Learns to Read Beside Her Daughter</h3>
+                        <p class="awareness-excerpt">Nena never finished grade school. Sitting in on her daughter's sessions, she learned to read too.</p>
+                        <a href="javascript:void(0);" onclick="document.getElementById('story-article-9').classList.add('active');" class="awareness-link">Read their story →</a>
                     </div>
                 </article>
             </div>
 
             <div class="show-more-wrap">
-                <button class="show-more">Show more</button>
+                <button class="show-more" id="stories-btn">Show more</button>
             </div>
         </section>
     </main>
@@ -2793,5 +2832,117 @@
             <p>Volunteering has also taught me so much about patience, empathy, and persistence. The children remind me every week that learning doesn't have to be a serious, stressful chore—it can be fun, messy, and full of laughter. I know I'm making a small difference in their lives, but the truth is, they are making a massive difference in mine.</p>
         </div>
     </div>
+
+        <!-- SUCCESS STORIES MODALS -->
+
+    <div class="article-modal" id="story-article-1">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-1').classList.remove('active')">&times;</button>
+            <h2>From Non-Reader to Class Valedictorian</h2>
+            <p class="article-date">Quezon City · 2025</p>
+            <p>At nine years old, Ana could not read a single sentence. She hid her books during class and quietly dreaded every time the teacher asked someone to read aloud. Her parents worked long hours and there were few books at home, so the gap between Ana and her classmates kept growing.</p>
+            <p>Everything changed when she joined an Agapay reading group in her barangay. With patient mentors, daily practice, and a steady supply of picture books, Ana went from sounding out letters to reading chapter books. Today she leads her class as valedictorian and dreams of becoming a teacher so she can help other children discover the joy of reading.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-2">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-2').classList.remove('active')">&times;</button>
+            <h2>The Boy Who Read His First Storybook</h2>
+            <p class="article-date">Manila · 2025</p>
+            <p>At seven, Ben had never owned a book. His days were spent helping at his family's small stall, and school felt like a place where everyone else already knew the answers. When he first joined Agapay's reading program, he could only recognize a handful of letters.</p>
+            <p>Six months later, Ben finished his first full storybook, reading every page out loud to his mentor. The very next thing he did was ask for another one. He now keeps a small shelf of books at home, and he proudly reads to his younger sister every night.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-3">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-3').classList.remove('active')">&times;</button>
+            <h2>A Barangay That Built Its Own Library</h2>
+            <p class="article-date">Pasig · 2024</p>
+            <p>Residents of Barangay Malinao had long wished for a place where children could read and study safely after school. With Agapay's help, they decided to transform an old, unused shed into a community library.</p>
+            <p>Neighbors donated shelves, volunteers painted the walls, and families contributed books from their own homes. Today the library is open every afternoon and is full of children reading, doing homework, and joining storytelling sessions. For many residents, it is proof of what a community can build when everyone pitches in.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-4">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-4').classList.remove('active')">&times;</button>
+            <h2>The Boy Who Wrote His First Poem</h2>
+            <p class="article-date">Caloocan · 2024</p>
+            <p>For years, Marco struggled with words. Writing even a short sentence felt exhausting, and he often gave up before he finished. He began to believe that he was simply not good at it.</p>
+            <p>Then he was paired with a patient Agapay mentor who encouraged him to write about the things he loved. Week by week, his sentences grew into verses, and eventually into a poem about his neighborhood. That poem was published in a community newsletter, and Marco has not stopped writing since.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-5">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-5').classList.remove('active')">&times;</button>
+            <h2>A College Student Who Volunteers Every Saturday</h2>
+            <p class="article-date">Makati · 2024</p>
+            <p>Miguel is a college student with a full load of classes, yet his Saturdays are reserved for teaching reading to young learners. What started as a requirement for a school activity turned into a weekly commitment he refuses to miss.</p>
+            <p>He says it is the best part of his week, every single week. Watching a child finally read a word they once found impossible reminds him why he wants to be an educator. Miguel hopes more students will give even a few hours a week to mentoring.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-6">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-6').classList.remove('active')">&times;</button>
+            <h2>Coastal Families Turn to Storybooks</h2>
+            <p class="article-date">Navotas · 2023</p>
+            <p>In a coastal community in Navotas, evenings used to be quiet and spent apart, with parents tired from work and children glued to their phones. Agapay volunteers introduced a simple idea: a weekly reading night on the shore.</p>
+            <p>Families now gather with blankets and lamps to read together, trading books and taking turns reading aloud. What began with a handful of households has grown into a weekly tradition that brings parents and children closer, one story at a time.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-7">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-7').classList.remove('active')">&times;</button>
+            <h2>A Shy Girl Who Found Her Voice</h2>
+            <p class="article-date">Tondo · 2023</p>
+            <p>Lia was known as the quietest child in her class. She knew how to read, but the thought of reading out loud made her freeze. Her teacher suggested she try Agapay's weekend read-aloud circle in Tondo.</p>
+            <p>At first she only listened. Gradually, she began reading short lines, then whole pages, encouraged by friendly volunteers and classmates. Months later, Lia volunteered to read in front of the entire school during a flag ceremony. Her mother says she now speaks up at home, too.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-8">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-8').classList.remove('active')">&times;</button>
+            <h2>A Retired Teacher Returns to the Classroom</h2>
+            <p class="article-date">Mandaluyong · 2023</p>
+            <p>After 35 years of teaching in public schools, Lola Remedios thought she had earned a quiet retirement. But she missed the sound of children learning. When she heard about Agapay's mentoring program, she signed up the same week.</p>
+            <p>Today she mentors a dozen young readers every weekend, using the same patience and little tricks she perfected over decades. Her learners call her "Lola Teacher," and she says every Saturday makes her feel like she is back where she belongs.</p>
+        </div>
+    </div>
+
+    <div class="article-modal" id="story-article-9">
+        <div class="article-modal-bg"></div>
+        <div class="article-modal-content">
+            <button class="article-modal-close" onclick="document.getElementById('story-article-9').classList.remove('active')">&times;</button>
+            <h2>A Mother Learns to Read Beside Her Daughter</h2>
+            <p class="article-date">Taguig · 2023</p>
+            <p>Nena never got the chance to finish grade school. When her daughter joined an Agapay reading session, Nena sat quietly at the back, embarrassed that she could not read the same books her child was reading.</p>
+            <p>A volunteer noticed and invited her to join in. Nena practiced letters and simple words alongside her daughter, and soon they were reading bedtime stories to each other. She now reads labels, messages, and letters on her own, and says she is finally able to help her daughter with homework.</p>
+        </div>
+    </div>
+
+    <!-- Universal Form Success Popup -->
+<div id="form-success-popup" class="custom-popup">
+    <div class="custom-popup-backdrop" onclick="document.getElementById('form-success-popup').classList.remove('active')"></div>
+    <div class="custom-popup-box">
+        <div class="custom-popup-icon">✓</div>
+        <h2>Submission Received!</h2>
+        <p id="success-popup-message">Thank you! Our team will review your information and reach out to you shortly.</p>
+        <button class="btn-pill btn-primary" onclick="document.getElementById('form-success-popup').classList.remove('active')">Close</button>
+    </div>
+</div>
 </body>
 </html>
