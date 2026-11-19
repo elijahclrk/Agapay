@@ -1,17 +1,3 @@
-/* ==========================================================
-   Agapay - login & role handling (demo only)
-
-   - Accounts are hard-coded below: 2 user accounts + 1 admin.
-   - The login form compares what was typed against ACCOUNTS.
-   - A successful login is kept in sessionStorage and <body> gets
-     the class "is-user" or "is-admin". style.css uses that class to
-     show/hide the menu items, the profile page and the admin page.
-   - Admin and user are separate: the admin never sees "My Profile",
-     and a user never sees (or can open) the Admin page.
-
-   NOTE: this all runs in the browser, so it is NOT real security.
-   It is only for the class demo.
-   ========================================================== */
 (function () {
     'use strict';
 
@@ -26,7 +12,6 @@
           firstName: 'Admin', lastName: '',           city: '' }
     ];
 
-    /* ---------- session helpers ---------- */
     function findByEmail(email) {
         email = String(email || '').trim().toLowerCase();
         for (var i = 0; i < ACCOUNTS.length; i++) {
@@ -46,7 +31,7 @@
     function saveSession(account) {
         try {
             sessionStorage.setItem(SESSION_KEY, JSON.stringify({ email: account.email, role: account.role }));
-        } catch (e) { /* storage blocked: login just will not persist */ }
+        } catch (e) { }
     }
 
     function clearSession() {
@@ -57,7 +42,6 @@
         return account.role === 'admin' ? '#admin' : '#home';
     }
 
-    /* ---------- page state ---------- */
     function fillProfile(account) {
         var fullName = (account.firstName + ' ' + account.lastName).trim();
         var initials = (account.firstName.charAt(0) + account.lastName.charAt(0)).toUpperCase();
@@ -84,7 +68,6 @@
 
         if (isUser) { fillProfile(account); }
 
-        /* Load the admin workspace only for the admin; unload it on logout */
         var frame = document.querySelector('.admin-frame');
         if (frame) {
             if (isAdmin) {
@@ -97,7 +80,6 @@
         }
     }
 
-    /* Keep each role on the pages that belong to it */
     function guardRoute() {
         var hash = window.location.hash;
         var account = getSession();
@@ -113,7 +95,6 @@
         }
     }
 
-    /* ---------- events ---------- */
     var form = document.getElementById('login-form');
     if (form) {
         var emailInput = document.getElementById('login-email');
@@ -140,7 +121,6 @@
         form.addEventListener('input', function () { errorBox.hidden = true; });
     }
 
-    /* Every "Log Out" link carries the data-logout attribute */
     document.addEventListener('click', function (event) {
         if (event.target.closest && event.target.closest('[data-logout]')) {
             clearSession();
@@ -150,11 +130,9 @@
 
     window.addEventListener('hashchange', guardRoute);
 
-    /* ---------- start ---------- */
     applySession(getSession());
     guardRoute();
 
-        /* ---------- donation page show more toggle ---------- */
     document.addEventListener('DOMContentLoaded', function() {
         const toggleBtn = document.getElementById("toggle-campaigns");
         const campaignGrid = document.querySelector(".campaigns .campaign-grid");
@@ -174,26 +152,19 @@
         }
     });
 
-        /* ---------- donation form validation alert ---------- */
     window.handleDonation = function(event, formElement) {
-        // 1. Stop the form from actually submitting and jumping pages
         event.preventDefault();
 
-        // 2. Show the success alert
         alert("Thank you for your donation! Your confirmation has been received. Our team will verify your transaction shortly.");
 
-        // 3. Close the modal by unchecking the hidden checkbox
         const modalToggleId = formElement.closest('.page').querySelector('.donate-toggle').id;
         document.getElementById(modalToggleId).checked = false;
 
-        // 4. Optionally, reset the form so it's clean for next time
         formElement.reset();
     };
     
-            /* ---------- awareness page  ---------- */
     document.addEventListener("DOMContentLoaded", function() {
         
-        // --- VOLUNTEER OPPORTUNITIES ---
         const volunteerBtn = document.getElementById("volunteer-btn");
         const volunteerGrid = document.getElementById("volunteer-grid");
 
@@ -204,7 +175,6 @@
             });
         }
 
-        // --- NEWS SECTION ---
         const newsBtn = document.getElementById("news-btn");
         const newsGrid = document.getElementById("news-grid");
 
@@ -215,7 +185,6 @@
             });
         }
 
-        // --- SUCCESS STORIES SECTION ---
         const storiesBtn = document.getElementById("stories-btn");
         const storiesGrid = document.getElementById("stories-grid");
 
@@ -226,7 +195,6 @@
             });
         }
 
-        // --- BLOG SECTION ---
         const blogBtn = document.getElementById("blog-btn");
         const blogGrid = document.getElementById("blog-grid");
 
@@ -239,16 +207,4 @@
 
     });
 
-// Listen for ALL forms that are inside a .page and are not the donation forms
-document.addEventListener('submit', function (event) {
-    const form = event.target;
-    
-    // Ignore donation forms (they have their own inline onsubmit handler)
-    if (form.classList.contains('donate-form')) return;
-
-    // If the form is a volunteer form, mentor form, or help request form
-    if (form.closest('.volunteer-page') || form.closest('#mentor-application') || form.closest('#student-requests')) {
-        window.handleFormSubmission(event, form);
-    }
-});
 })();

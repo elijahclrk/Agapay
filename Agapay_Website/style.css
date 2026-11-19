@@ -649,6 +649,34 @@ label > input[type="radio"] { display: none; }
 .story-img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 14px; background: linear-gradient(180deg, #cfe3fa 0%, #5C92DF 60%, #315b91 100%); }
 .story-text { margin: 24px 0 28px; line-height: 1.7; color: #33465c; }
 .story-text p { margin: 0 0 16px; }
+
+.verified-donation-summary {
+    margin: 16px 0 0;
+    padding: 10px 12px;
+    border-left: 4px solid #315b91;
+    border-radius: 6px;
+    color: #315b91;
+    background: #edf5fe;
+    font: 700 14px/1.45 Arial, Helvetica, sans-serif;
+}
+.verified-donor-list {
+    display: grid;
+    gap: 7px;
+    margin: 10px 0 24px;
+    padding: 0;
+    list-style: none;
+    color: #33465c;
+}
+.verified-donor-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 9px 12px;
+    border: 1px solid #dbe8f6;
+    border-radius: 7px;
+    background: #fbfdff;
+}
+.verified-donor-list strong { color: #315b91; }
 .organizer-card { display: flex; align-items: center; gap: 20px; padding: 18px 22px; background: var(--bg); border-radius: 14px; }
 .organizer-card strong { display: block; font-size: 18px; color: var(--blue-dark); }
 .organizer-card span { font-size: 14px; color: var(--blue); }
@@ -850,8 +878,9 @@ body:has(.awareness-page-inline:target) #donation:not(:target) { display: none; 
 .info-page .stats strong { display: block; font-size: 2.5rem; color: var(--blue-dark); }
 .info-page .sponsors { text-align: center; }
 .info-page .sponsors div { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
-.info-page .sponsors img { border-radius: 50%; border: 1px solid var(--blue-dark); max-width: 100px; box-shadow: 0 4px 14px rgba(49, 91, 145, 0.592); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.info-page .sponsors img { width: 100px; height: 100px; border-radius: 50%; border: 1px solid var(--blue-dark); max-width: 100px; object-fit: cover; box-shadow: 0 4px 14px rgba(49, 91, 145, 0.592); transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .info-page .sponsors img:hover { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(49, 91, 145, 0.481); }
+.info-page .sponsors .partner-placeholder { width: 100px; height: 100px; border-radius: 50%; border: 1px dashed var(--blue-dark, #24487a); display: grid; place-items: center; font: 700 34px/1 Arial, Helvetica, sans-serif; color: var(--blue-dark, #24487a); background: #fff; box-shadow: 0 4px 14px rgba(49, 91, 145, 0.592); }
 
 .info-page .intro { text-align: center; margin: 0 0 1.5rem; color: var(--muted); }
 .info-page button { padding: 0.7rem 1.5rem; font: inherit; font-weight: bold; color: #fff; background: var(--blue-dark); border: 0; border-radius: 6px; cursor: pointer; }
