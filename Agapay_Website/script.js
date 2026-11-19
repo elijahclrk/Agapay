@@ -153,4 +153,102 @@
     /* ---------- start ---------- */
     applySession(getSession());
     guardRoute();
+
+        /* ---------- donation page show more toggle ---------- */
+    document.addEventListener('DOMContentLoaded', function() {
+        const toggleBtn = document.getElementById("toggle-campaigns");
+        const campaignGrid = document.querySelector(".campaigns .campaign-grid");
+
+        if (toggleBtn && campaignGrid) {
+            toggleBtn.addEventListener("click", function() {
+                // Toggle the 'show-all' class on the grid
+                campaignGrid.classList.toggle("show-all");
+
+                // Change the text
+                if (campaignGrid.classList.contains("show-all")) {
+                    toggleBtn.textContent = "Show less";
+                } else {
+                    toggleBtn.textContent = "Show more";
+                }
+            });
+        }
+    });
+
+        /* ---------- donation form validation alert ---------- */
+    window.handleDonation = function(event, formElement) {
+        // 1. Stop the form from actually submitting and jumping pages
+        event.preventDefault();
+
+        // 2. Show the success alert
+        alert("Thank you for your donation! Your confirmation has been received. Our team will verify your transaction shortly.");
+
+        // 3. Close the modal by unchecking the hidden checkbox
+        const modalToggleId = formElement.closest('.page').querySelector('.donate-toggle').id;
+        document.getElementById(modalToggleId).checked = false;
+
+        // 4. Optionally, reset the form so it's clean for next time
+        formElement.reset();
+    };
+    
+            /* ---------- awareness page  ---------- */
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        // --- VOLUNTEER OPPORTUNITIES ---
+        const volunteerBtn = document.getElementById("volunteer-btn");
+        const volunteerGrid = document.getElementById("volunteer-grid");
+
+        if (volunteerBtn && volunteerGrid) {
+            volunteerBtn.addEventListener("click", function() {
+                volunteerGrid.classList.toggle("show-all");
+                volunteerBtn.textContent = volunteerGrid.classList.contains("show-all") ? "Show less" : "Show more";
+            });
+        }
+
+        // --- NEWS SECTION ---
+        const newsBtn = document.getElementById("news-btn");
+        const newsGrid = document.getElementById("news-grid");
+
+        if (newsBtn && newsGrid) {
+            newsBtn.addEventListener("click", function() {
+                newsGrid.classList.toggle("show-all");
+                newsBtn.textContent = newsGrid.classList.contains("show-all") ? "Show less" : "Show more";
+            });
+        }
+
+        // --- SUCCESS STORIES SECTION ---
+        const storiesBtn = document.getElementById("stories-btn");
+        const storiesGrid = document.getElementById("stories-grid");
+
+        if (storiesBtn && storiesGrid) {
+            storiesBtn.addEventListener("click", function() {
+                storiesGrid.classList.toggle("show-all");
+                storiesBtn.textContent = storiesGrid.classList.contains("show-all") ? "Show less" : "Show more";
+            });
+        }
+
+        // --- BLOG SECTION ---
+        const blogBtn = document.getElementById("blog-btn");
+        const blogGrid = document.getElementById("blog-grid");
+
+        if (blogBtn && blogGrid) {
+            blogBtn.addEventListener("click", function() {
+                blogGrid.classList.toggle("show-all");
+                blogBtn.textContent = blogGrid.classList.contains("show-all") ? "Show less" : "Show more";
+            });
+        }
+
+    });
+
+// Listen for ALL forms that are inside a .page and are not the donation forms
+document.addEventListener('submit', function (event) {
+    const form = event.target;
+    
+    // Ignore donation forms (they have their own inline onsubmit handler)
+    if (form.classList.contains('donate-form')) return;
+
+    // If the form is a volunteer form, mentor form, or help request form
+    if (form.closest('.volunteer-page') || form.closest('#mentor-application') || form.closest('#student-requests')) {
+        window.handleFormSubmission(event, form);
+    }
+});
 })();
