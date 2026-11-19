@@ -2,9 +2,7 @@
    Agapay - admin workspace (admin.html)
    1. Guard: only the admin account may stay on this page.
    2. The Overview date and greeting follow today's date and time.
-   3. Website content: the story text, image and status you set are saved
-      in localStorage; the public pages (script.js) read them from there.
-   4. Click a row in Volunteers / Donations / Partners / Content
+   3. Click a row in Volunteers / Donations / Partners / Content
       to expand it and see more details (click again to close).
    Sample data only, nothing is saved.
    ========================================================== */
@@ -41,119 +39,6 @@
     }
     updateToday();
     setInterval(updateToday, 60000); /* stays correct if the page is left open past midnight */
-
-    /* ---------- Website content: story text + image + status ---------- */
-    var CONTENT_KEY = 'agapayContent';
-    var noteTimer = null;
-
-    function loadContent() {
-        try { return JSON.parse(localStorage.getItem(CONTENT_KEY)) || {}; } catch (e) { return {}; }
-    }
-
-    function saveContent(data) {
-        try { localStorage.setItem(CONTENT_KEY, JSON.stringify(data)); return true; } catch (e) { return false; }
-    }
-
-    function showNote(text, isError) {
-        var note = document.getElementById('save-note');
-        if (!note) { return; }
-        note.textContent = text;
-        note.className = 'save-note' + (isError ? ' is-error' : '');
-        clearTimeout(noteTimer);
-        noteTimer = setTimeout(function () { note.textContent = ''; }, 3000);
-    }
-
-    /* Shrink the chosen photo so it fits in localStorage */
-    function resizeImage(file, done) {
-        var reader = new FileReader();
-        reader.onload = function () {
-            var image = new Image();
-            image.onload = function () {
-                var scale = Math.min(1, 800 / image.width);
-                var canvas = document.createElement('canvas');
-                canvas.width = Math.round(image.width * scale);
-                canvas.height = Math.round(image.height * scale);
-                canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
-                done(canvas.toDataURL('image/jpeg', 0.8));
-            };
-            image.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-    }
-
-    function setupContentRow(row) {
-        var key = row.getAttribute('data-key');
-        var story = row.querySelector('.story-field');
-        var thumb = row.querySelector('.image-thumb');
-        var picker = row.querySelector('input[type="file"]');
-        var remove = row.querySelector('.remove-image');
-        var status = row.querySelector('.status-select');
-        var defaultStatus = status.value;
-        var timer = null;
-
-        function showImage(src) {
-            thumb.hidden = !src;
-            remove.hidden = !src;
-            if (src) { thumb.src = src; } else { thumb.removeAttribute('src'); }
-        }
-
-        function load() {
-            var saved = loadContent()[key] || {};
-            story.value = saved.story || '';
-            status.value = saved.status || defaultStatus;
-            showImage(saved.image || '');
-        }
-
-        function update(changes) {
-            var all = loadContent();
-            var record = all[key] || {};
-            record.title = row.querySelector('strong').textContent;
-            record.type = row.getAttribute('data-type');
-            record.published = row.getAttribute('data-published');
-            record.status = status.value;
-            Object.keys(changes).forEach(function (name) { record[name] = changes[name]; });
-            all[key] = record;
-            if (saveContent(all)) {
-                showNote('Saved', false);
-            } else {
-                showNote('Not saved: storage is full. Try a smaller image.', true);
-            }
-        }
-
-        story.addEventListener('input', function () {
-            clearTimeout(timer);
-            timer = setTimeout(function () { update({ story: story.value.trim() }); }, 400);
-        });
-        status.addEventListener('change', function () { update({}); });
-        picker.addEventListener('change', function () {
-            var file = picker.files[0];
-            if (!file) { return; }
-            resizeImage(file, function (dataUrl) {
-                showImage(dataUrl);
-                update({ image: dataUrl });
-            });
-            picker.value = '';
-        });
-        remove.addEventListener('click', function () {
-            showImage('');
-            update({ image: '' });
-        });
-
-        row.resetContent = load;
-        load();
-    }
-
-    var contentRows = document.querySelectorAll('#content tbody tr[data-key]');
-    Array.prototype.forEach.call(contentRows, setupContentRow);
-
-    var resetButton = document.getElementById('reset-content');
-    if (resetButton) {
-        resetButton.addEventListener('click', function () {
-            try { localStorage.removeItem(CONTENT_KEY); } catch (e) { /* ignore */ }
-            Array.prototype.forEach.call(contentRows, function (row) { row.resetContent(); });
-            showNote('Reset to original', false);
-        });
-    }
 
     /* ---------- 2. Expandable rows ---------- */
     var DETAILS = {
@@ -230,7 +115,7 @@
             row.setAttribute('aria-expanded', 'false');
 
             row.addEventListener('click', function (event) {
-                if (event.target.closest('select, input, textarea, label, a, button')) { return; }
+                if (event.target.closest('select, input, a, button')) { return; }
                 toggleDetails(row, info);
             });
             row.addEventListener('keydown', function (event) {
