@@ -332,6 +332,7 @@
 .page:target, .page:has(:target) { display: flex; }
 body:not(:has(:target)) #home { display: flex; }
 body:has(:target) #donation:not(:target) { display: none; }
+#donation { padding-bottom: 64px; }
 
 .volunteer-page,
 .volunteer-page * { box-sizing: border-box; }
@@ -628,10 +629,6 @@ label > input[type="radio"] { display: none; }
 .progress { height: 10px; margin-top: auto; background: #c9dcf2; border-radius: 999px; overflow: hidden; }
 .progress-fill { height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue-light)); border-radius: 999px; }
 .card-meta { display: flex; justify-content: space-between; font-size: 13px; color: var(--blue); }
-
-.show-more-wrap { flex: 1; display: flex; justify-content: center; align-items: center; padding: 48px 0; }
-.show-more { padding: 10px 56px; font-size: 16px; font-weight: 700; color: var(--blue); background: #fff; border: 3px solid #cfe0f5; border-radius: 999px; cursor: pointer; transition: background-color 0.25s ease, color 0.25s ease; }
-.show-more:hover { background: var(--blue); color: #fff; }
 
 .detail-title { max-width: 620px; margin: 0 auto 16px; padding: 14px 20px; text-align: center; font-size: 28px; color: var(--blue-dark); }
 .detail-meta { display: flex; justify-content: space-around; gap: 12px; max-width: 860px; margin: 0 auto 36px; padding: 10px 20px; font-size: 14px; font-style: italic; color: var(--blue); background: var(--bg); border-radius: 12px; }
@@ -1191,10 +1188,6 @@ body.is-admin:has(#admin:target) .site-footer { display: none; }
 .awareness-page-inline,
 .awareness-page { background-color: #ffffff; }
 
-.hidden-card {
-    display: none !important;
-}
-
 .campaign-grid.show-all .hidden-card {
     display: flex !important;
 }
@@ -1227,16 +1220,8 @@ body.is-admin:has(#admin:target) .site-footer { display: none; }
     padding-bottom: 40px !important;
 }
 
-.hidden-opportunity-card {
-    display: none !important;
-}
-
 .volunteer-grid.show-all .hidden-opportunity-card {
     display: flex !important;
-}
-
-.hidden-awareness-card {
-    display: none !important;
 }
 
 .awareness-grid.show-all .hidden-awareness-card {
