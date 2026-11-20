@@ -91,6 +91,9 @@
                 '<td><input data-field="name" value="' + esc(mentor.name) + '"><span class="table-secondary">On the public mentor list</span></td>' +
                 '<td>' + imagePicker(mentor.image) + '</td>' +
                 '<td>' + storyField('description', mentor.description, 'Short description shown on the public card') + '</td>' +
+                '<td class="mentor-answer">\u2014</td>' +
+                '<td class="mentor-answer">\u2014</td>' +
+                '<td class="mentor-answer">\u2014</td>' +
                 '<td><select data-mentor-decision="' + esc(mentor.id) + '" data-decision-kind="builtin"><option value="Published" ' + (status === 'Published' ? 'selected' : '') + '>Accepted</option><option value="Hidden" ' + (status === 'Hidden' ? 'selected' : '') + '>Not accepted</option></select></td>' +
                 '<td><button type="button" data-save-row>Save</button> ' + trashButton('mentor', 'Delete mentor') + '</td></tr>';
         });
@@ -100,12 +103,15 @@
                 '<td><input data-field="name" value="' + esc(application.name) + '"><span class="table-secondary">' + esc(application.email) + '</span></td>' +
                 '<td>' + imagePicker(application.image) + '</td>' +
                 '<td>' + storyField('expertise', application.expertise, 'Short description shown on the public card') + '</td>' +
+                '<td class="mentor-answer">' + esc(application.experience || '\u2014') + '</td>' +
+                '<td class="mentor-answer">' + esc(application.tutoring || '\u2014') + '</td>' +
+                '<td class="mentor-answer">' + esc(application.message || '\u2014') + '</td>' +
                 '<td><select data-mentor-decision="' + esc(application.id) + '" data-decision-kind="application"><option value="Accepted" ' + (accepted ? 'selected' : '') + '>Accepted</option><option value="Pending" ' + (!accepted ? 'selected' : '') + '>Not accepted</option></select></td>' +
                 '<td><button type="button" data-save-row>Save</button> ' + trashButton('mentor', 'Delete permanently') + '</td></tr>');
         });
         host.innerHTML = '<div class="panel-heading panel-heading-simple"><div><p class="eyebrow">PUBLIC MENTOR LIST</p></div><span class="record-count">' + rows.length + (rows.length === 1 ? ' mentor' : ' mentors') + '</span><button type="button" class="secondary-button" data-new-mentor>+ New mentor</button></div>' +
-            '<div class="table-scroll"><table class="editable-table"><thead><tr><th>Name</th><th>Photo</th><th>Short description</th><th>Decision</th><th>Action</th></tr></thead><tbody>' +
-            (rows.length ? rows.join('') : '<tr><td colspan="5">No mentors yet. Use the + New mentor button above.</td></tr>') +
+            '<div class="table-scroll"><table class="editable-table"><thead><tr><th>Name</th><th>Photo</th><th>Short description</th><th>Relevant experience</th><th>Teaching / tutoring background</th><th>Why they want to be a mentor</th><th>Decision</th><th>Action</th></tr></thead><tbody>' +
+            (rows.length ? rows.join('') : '<tr><td colspan="8">No mentors yet. Use the + New mentor button above.</td></tr>') +
             '</tbody></table></div>';
     }
 

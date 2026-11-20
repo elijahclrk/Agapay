@@ -140,7 +140,7 @@ td strong { color: #2e3d51; font-size: 14px; }
 .admin-main:not(:has(.admin-view:target)) #overview, .admin-view:target { display: block; }
 
 .editable-table {
-    min-width: 1180px;
+    min-width: 1400px;
     border-collapse: separate;
     border-spacing: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -188,6 +188,17 @@ td strong { color: #2e3d51; font-size: 14px; }
     border-color: #315b91;
 }
 .editable-table textarea { min-height: 96px; resize: vertical; }
+/* read-only mentor application answers (experience / tutoring / motivation) */
+.editable-table td.mentor-answer {
+    min-width: 190px;
+    max-width: 260px;
+    white-space: normal;
+    color: #46566b;
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.editable-table td.mentor-answer em { color: #8995a4; }
 .editable-table button {
     display: inline-flex;
     align-items: center;
