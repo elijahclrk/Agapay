@@ -35,6 +35,9 @@
     function storyField(name, value, placeholder) {
         return '<textarea data-field="' + name + '" rows="3" placeholder="' + (placeholder || '') + '">' + esc(value) + '</textarea>';
     }
+    function contentStoryField(value) {
+        return '<textarea data-field="fullStory" rows="3" placeholder="Full story">' + esc(value) + '</textarea>';
+    }
     function imagePicker(value) {
         return '<div class="image-picker">' +
             '<input type="hidden" data-field="image" value="' + esc(value) + '">' +
@@ -47,7 +50,7 @@
         return '<select data-post-status="' + esc(item.id) + '"><option value="Published" ' + (item.status === 'Published' ? 'selected' : '') + '>Public</option><option value="Draft" ' + (item.status === 'Draft' ? 'selected' : '') + '>Hidden</option></select>';
     }
     function contentTypeSelect(value) {
-        return '<select data-field="type"><option ' + (value === 'News' ? 'selected' : '') + '>News</option><option ' + (value === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (value === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (value === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (value === 'Donate' ? 'selected' : '') + '>Donate</option></select>';
+        return '<select data-field="type"><option ' + (value === 'News' ? 'selected' : '') + '>News</option><option ' + (value === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (value === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (value === 'Awareness Campaign' ? 'selected' : '') + '>Awareness Campaign</option><option ' + (value === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (value === 'Donate' ? 'selected' : '') + '>Donate</option></select>';
     }
     function toDateInputValue(value) {
         var text = String(value || '');
@@ -125,7 +128,7 @@
             '<td>' + contentTypeSelect(post.type) + '</td>' +
             '<td>' + field('title', post.title, 'Title') + '</td>' +
             '<td>' + storyField('story', post.story, 'Public card excerpt') + '</td>' +
-            '<td>' + storyField('fullStory', post.fullStory || post.story, 'Full story') + '</td>' +
+            '<td>' + contentStoryField(post.fullStory || post.story) + '</td>' +
             '<td>' + imagePicker(post.image) + '</td>' +
             '<td>' + dateField(post) + '</td>' +
             '<td>' + goalField(post) + '</td>' +
@@ -162,7 +165,7 @@
             var searchable = [post.title, post.story, post.fullStory].join(' ').toLowerCase();
             return matchesType && (!query || searchable.indexOf(query) !== -1);
         });
-        host.innerHTML = '<div class="content-tools"><label class="content-search"><span>Search content</span><input type="search" data-content-search value="' + esc(contentQuery) + '" placeholder="Search title or story"></label><label class="content-filter"><span>Filter by type</span><select data-content-filter><option ' + (contentFilter === 'All' ? 'selected' : '') + '>All</option><option ' + (contentFilter === 'News' ? 'selected' : '') + '>News</option><option ' + (contentFilter === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (contentFilter === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (contentFilter === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (contentFilter === 'Donate' ? 'selected' : '') + '>Donate</option></select></label></div>' +
+        host.innerHTML = '<div class="content-tools"><label class="content-search"><span>Search content</span><input type="search" data-content-search value="' + esc(contentQuery) + '" placeholder="Search title or story"></label><label class="content-filter"><span>Filter by type</span><select data-content-filter><option ' + (contentFilter === 'All' ? 'selected' : '') + '>All</option><option ' + (contentFilter === 'News' ? 'selected' : '') + '>News</option><option ' + (contentFilter === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (contentFilter === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (contentFilter === 'Awareness Campaign' ? 'selected' : '') + '>Awareness Campaign</option><option ' + (contentFilter === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (contentFilter === 'Donate' ? 'selected' : '') + '>Donate</option></select></label></div>' +
             '<div class="panel-heading"><div><p class="eyebrow">CONTENT</p></div><span class="record-count">' + posts.length + ' of ' + data.posts.length + ' posts</span><button type="button" class="secondary-button" data-new-post>+ New post</button></div>' +
             '<div class="table-scroll"><table class="editable-table"><thead><tr><th>Post type</th><th>Title</th><th>Card excerpt</th><th>Full story</th><th>Image</th><th>Happens on</th><th>Goal \u20b1</th><th>Public</th><th>Action</th></tr></thead><tbody>' +
             posts.map(contentRow).join('') +

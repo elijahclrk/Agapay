@@ -100,7 +100,7 @@
     }
     function seedContent() {
         var data = read();
-        if (data.contentSeedVersion >= 6) { return; }
+        if (data.contentSeedVersion >= 7) { return; }
         var root = rootDocument();
 
         [['news-grid', 'News'], ['stories-grid', 'Success Story'], ['blog-grid', 'Blog']].forEach(function (pair) {
@@ -114,6 +114,17 @@
                 addPost(data, { id: id(), type: pair[1], sourceKind: 'awareness', sourceTitle: title, title: title, story: excerpt ? excerpt.textContent.trim() : '', fullStory: modal.story || (excerpt ? excerpt.textContent.trim() : ''), modalId: modal.id, image: cardImage(card), status: 'Published' });
             });
         });
+
+        var awarenessGrid = root.querySelector('#awareness-campaigns .awareness-grid');
+        if (awarenessGrid) {
+            Array.prototype.forEach.call(awarenessGrid.querySelectorAll('article.awareness-card'), function (card) {
+                var title = cardTitle(card);
+                if (!title) { return; }
+                var excerpt = card.querySelector('.awareness-excerpt');
+                var date = card.querySelector('.awareness-date');
+                addPost(data, { id: id(), type: 'Awareness Campaign', sourceKind: 'awareness-campaign', sourceTitle: title, title: title, story: excerpt ? excerpt.textContent.trim() : '', fullStory: excerpt ? excerpt.textContent.trim() : '', image: cardImage(card), date: date ? date.textContent.trim() : '', status: 'Published' });
+            });
+        }
 
         var volunteerGrid = root.getElementById('volunteer-grid');
         if (volunteerGrid) {
@@ -158,7 +169,7 @@
                 post.fullStory = post.fullStory || existingModal.story || post.story;
             }
         });
-        data.contentSeedVersion = 6;
+        data.contentSeedVersion = 7;
         write(data);
     }
     function originalTitle(heading) {
@@ -183,11 +194,19 @@
     function updateParagraphs(container, value) {
         if (!container) { return; }
         container.innerHTML = String(value || '').split(/\n\s*\n/).filter(Boolean).map(function (text) {
-            return '<p>' + esc(text) + '</p>';
+            return '<p>' + formatInlineText(text) + '</p>';
+        }).join('');
+    }
+    function formatInlineText(text) {
+        return esc(text).replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+    }
+    function formatStoryParagraphs(value) {
+        return String(value || '').split(/\n\s*\n/).filter(Boolean).map(function (text) {
+            return '<p>' + formatInlineText(text) + '</p>';
         }).join('');
     }
     function updateExistingPost(root, post) {
-        var cardSelector = post.type === 'Volunteer' ? '#volunteer-grid article' : post.type === 'Donate' ? '#donation .campaign-grid article' : post.type === 'Blog' ? '#blog-grid article' : post.type === 'Success Story' ? '#stories-grid article' : '#news-grid article';
+        var cardSelector = post.type === 'Volunteer' ? '#volunteer-grid article' : post.type === 'Donate' ? '#donation .campaign-grid article' : post.type === 'Awareness Campaign' ? '#awareness-campaigns .awareness-grid article' : post.type === 'Blog' ? '#blog-grid article' : post.type === 'Success Story' ? '#stories-grid article' : '#news-grid article';
         var card = findCard(root, cardSelector, post.sourceTitle);
         if (card) {
             card.hidden = post.status !== 'Published';
@@ -200,6 +219,16 @@
                 if (dateLine) { dateLine.textContent = formatPostDate(post.date); }
             }
             setImage(card, post.image, post.title);
+            if (post.type === 'Awareness Campaign') {
+                var opener = card.querySelector('.awareness-link');
+                if (opener) {
+                    post.modalId = post.modalId || communityModalId(post);
+                    opener.setAttribute('href', 'javascript:void(0);');
+                    opener.setAttribute('data-community-open', post.modalId);
+                }
+                if (post.status === 'Published') { syncCommunityModal(root, post, read()); }
+                else { removeCommunityModal(root, post); }
+            }
             if (post.modalId) {
                 var modal = root.getElementById(post.modalId);
                 var content = modal && modal.querySelector('.article-modal-content');
@@ -213,7 +242,7 @@
                     content.querySelectorAll('p:not(.article-date)').forEach(function (paragraph) { paragraph.remove(); });
                     String(post.fullStory || post.story).split(/\n\s*\n/).filter(Boolean).forEach(function (text) {
                         var paragraph = root.createElement('p');
-                        paragraph.textContent = text;
+                        paragraph.innerHTML = formatInlineText(text);
                         content.appendChild(paragraph);
                     });
                 }
@@ -247,7 +276,7 @@
         }
     }
     function communityGrid(root, post) {
-        return post.type === 'Volunteer' ? root.getElementById('volunteer-grid') : post.type === 'Donate' ? root.querySelector('#donation .campaign-grid') : post.type === 'Blog' ? root.getElementById('blog-grid') : post.type === 'Success Story' ? root.getElementById('stories-grid') : root.getElementById('news-grid');
+        return post.type === 'Volunteer' ? root.getElementById('volunteer-grid') : post.type === 'Donate' ? root.querySelector('#donation .campaign-grid') : post.type === 'Awareness Campaign' ? root.querySelector('#awareness-campaigns .awareness-grid') : post.type === 'Blog' ? root.getElementById('blog-grid') : post.type === 'Success Story' ? root.getElementById('stories-grid') : root.getElementById('news-grid');
     }
 
     function communityModalId(post) {
@@ -278,9 +307,7 @@
             modal.id = modalId;
             root.body.appendChild(modal);
         }
-        var paragraphs = String(post.fullStory || post.story).split(/\n\s*\n/).filter(Boolean).map(function (text) {
-            return '<p>' + esc(text) + '</p>';
-        }).join('');
+        var paragraphs = formatStoryParagraphs(post.fullStory || post.story);
         var goal = Number(post.targetAmount) || 0;
         var goalLine = post.type === 'Donate' && goal ?
             '<p><strong>Goal:</strong> \u20b1' + goal.toLocaleString() + ' \u00b7 <strong>Raised so far:</strong> \u20b1' + verifiedRaised(data, post).toLocaleString() + '</p>' : '';
@@ -482,7 +509,7 @@
         }
     }
     function hideOrphanSeedCards(root, liveTitles) {
-        var cardSelector = '#news-grid article, #stories-grid article, #blog-grid article, #volunteer-grid article, #donation .campaign-grid article';
+        var cardSelector = '#news-grid article, #stories-grid article, #blog-grid article, #awareness-campaigns .awareness-grid article, #volunteer-grid article, #donation .campaign-grid article';
         Array.prototype.forEach.call(root.querySelectorAll(cardSelector), function (card) {
             var heading = card.querySelector('h3');
             var title = heading && (heading.getAttribute('data-original-title') || heading.textContent.trim());
@@ -687,10 +714,27 @@
             var mentor = new FormData(form);
             var expertise = mentor.getAll('expertise');
             if (mentor.get('expertise-other')) { expertise.push(mentor.get('expertise-other')); }
-            data.mentorApplications.unshift({ id: id(), name: mentor.get('name'), email: mentor.get('email'), availability: mentor.get('availability'), hours: mentor.get('hours'), expertise: expertise.join(', '), experience: mentor.get('experience'), tutoring: mentor.get('tutoring'), message: mentor.get('message'), image: '', date: new Date().toLocaleDateString(), status: 'Pending' });
-            write(data);
-            form.reset();
-            alert('Your mentor application has been sent for admin review.');
+            var imageFile = mentor.get('professional-image');
+            if (imageFile && imageFile.size) {
+                if (!/^image\/(png|jpeg)$/.test(imageFile.type) || imageFile.size > 1500000) {
+                    alert('Choose a PNG, JPG, or JPEG image smaller than 1.5 MB.');
+                    return;
+                }
+            }
+            function saveMentorApplication(image) {
+                data.mentorApplications.unshift({ id: id(), name: mentor.get('name'), email: mentor.get('email'), availability: mentor.get('availability'), hours: mentor.get('hours'), expertise: expertise.join(', '), experience: mentor.get('experience'), tutoring: mentor.get('tutoring'), message: mentor.get('message'), image: image, date: new Date().toLocaleDateString(), status: 'Pending' });
+                write(data);
+                form.reset();
+                alert('Your mentor application has been sent for admin review.');
+            }
+            if (imageFile && imageFile.size) {
+                var reader = new FileReader();
+                reader.onload = function () { saveMentorApplication(reader.result); };
+                reader.onerror = function () { alert('The image could not be read. Please choose another file.'); };
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveMentorApplication('');
+            }
             return;
         }
         if (form.closest('#student-requests')) {
