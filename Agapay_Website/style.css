@@ -902,6 +902,8 @@ body:has(.awareness-page-inline:target) #donation:not(:target) { display: none; 
 .info-page input, .info-page select, .info-page textarea { font: inherit; padding: 0.6rem 0.75rem; border: 1px solid var(--blue-dark); border-radius: 12px; color: var(--text); font-weight: normal; }
 .info-page input::placeholder, .info-page textarea::placeholder { color: var(--muted); opacity: 0.7; }
 .info-page input:focus, .info-page select:focus, .info-page textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(49, 91, 145, 0.25); }
+#mentor-application input[type="file"], #mentor-application input[type="file"]:focus { border: 0; padding: 0.25rem 0; background: transparent; box-shadow: none; }
+#mentor-application .mentor-image-note { font-style: italic; font-weight: normal; }
 .info-page .checks { display: grid; gap: 0.25rem; }
 .info-page .checks span { font-weight: bold; }
 .info-page .checks label { display: flex; align-items: center; gap: 0.5rem; font-weight: normal; }
@@ -1286,9 +1288,11 @@ body.is-admin:has(#admin:target) .site-footer { display: none; }
     width: min(700px, 100%);
     max-height: 85vh;
     overflow-y: auto;
+    scrollbar-gutter: stable;
     padding: 40px;
     border-radius: 18px;
-    box-shadow: 0 24px 60px rgba(36, 72, 122, 0.35);
+    clip-path: inset(0 round 18px);
+    filter: drop-shadow(0 24px 30px rgba(36, 72, 122, 0.35));
     animation: fadeIn 0.3s ease;
 }
 
