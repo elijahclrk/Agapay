@@ -122,6 +122,12 @@
     }
 
     document.addEventListener('click', function (event) {
+        var pdfDownloadLink = event.target.closest && event.target.closest('#educational-resources .awareness-link');
+        if (pdfDownloadLink && pdfDownloadLink.textContent.indexOf('Download PDF') !== -1) {
+            event.preventDefault();
+            alert('The PDF file has been downloaded.');
+        }
+
         if (event.target.closest && event.target.closest('[data-logout]')) {
             clearSession();
             applySession(null);

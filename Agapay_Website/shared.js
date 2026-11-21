@@ -100,8 +100,33 @@
     }
     function seedContent() {
         var data = read();
-        if (data.contentSeedVersion >= 7) { return; }
         var root = rootDocument();
+        var resourcesGrid = root.querySelector('#educational-resources .awareness-grid');
+        var resourceSeedNeeded = !!(resourcesGrid && !data.educationalResourceCardsImported);
+        if (resourceSeedNeeded) {
+            Array.prototype.forEach.call(resourcesGrid.querySelectorAll('article.awareness-card'), function (card) {
+                var title = cardTitle(card);
+                if (!title) { return; }
+                var excerpt = card.querySelector('.awareness-excerpt');
+                var date = card.querySelector('.awareness-date');
+                var badge = card.querySelector('.awareness-badge');
+                var existing = data.posts.find(function (post) {
+                    return post.type === 'Educational Resources' && (post.sourceTitle === title || (!post.sourceTitle && post.title === title));
+                });
+                if (existing) {
+                    existing.sourceTitle = existing.sourceTitle || title;
+                    existing.sourceKind = 'educational-resource';
+                    existing.resourceLabel = existing.resourceLabel || (badge ? badge.textContent.trim() : 'Resource');
+                    return;
+                }
+                data.posts.push({ id: id(), type: 'Educational Resources', sourceKind: 'educational-resource', sourceTitle: title, title: title, story: excerpt ? excerpt.textContent.trim() : '', fullStory: excerpt ? excerpt.textContent.trim() : '', image: cardImage(card), date: date ? date.textContent.trim() : '', resourceLabel: badge ? badge.textContent.trim() : 'Resource', status: 'Published' });
+            });
+            data.educationalResourceCardsImported = true;
+        }
+        if (data.contentSeedVersion >= 8) {
+            if (resourceSeedNeeded) { write(data); }
+            return;
+        }
 
         [['news-grid', 'News'], ['stories-grid', 'Success Story'], ['blog-grid', 'Blog']].forEach(function (pair) {
             var grid = root.getElementById(pair[0]);
@@ -169,7 +194,7 @@
                 post.fullStory = post.fullStory || existingModal.story || post.story;
             }
         });
-        data.contentSeedVersion = 7;
+        data.contentSeedVersion = 8;
         write(data);
     }
     function originalTitle(heading) {
@@ -206,7 +231,7 @@
         }).join('');
     }
     function updateExistingPost(root, post) {
-        var cardSelector = post.type === 'Volunteer' ? '#volunteer-grid article' : post.type === 'Donate' ? '#donation .campaign-grid article' : post.type === 'Awareness Campaign' ? '#awareness-campaigns .awareness-grid article' : post.type === 'Blog' ? '#blog-grid article' : post.type === 'Success Story' ? '#stories-grid article' : '#news-grid article';
+        var cardSelector = post.type === 'Volunteer' ? '#volunteer-grid article' : post.type === 'Donate' ? '#donation .campaign-grid article' : post.type === 'Awareness Campaign' ? '#awareness-campaigns .awareness-grid article' : post.type === 'Educational Resources' ? '#educational-resources .awareness-grid article' : post.type === 'Blog' ? '#blog-grid article' : post.type === 'Success Story' ? '#stories-grid article' : '#news-grid article';
         var card = findCard(root, cardSelector, post.sourceTitle);
         if (card) {
             card.hidden = post.status !== 'Published';
@@ -214,6 +239,17 @@
             updateHeading(card.querySelector('h3'), post);
             var excerpt = card.querySelector(post.type === 'Donate' ? '.card-desc' : '.awareness-excerpt') || card.querySelector('p');
             if (excerpt) { excerpt.textContent = post.story; }
+            if (post.type === 'Educational Resources') {
+                var resourceBadge = card.querySelector('.awareness-badge');
+                var resourceLink = card.querySelector('.awareness-link');
+                if (resourceBadge) { resourceBadge.textContent = post.resourceLabel || 'Resource'; }
+                if (resourceLink) {
+                    resourceLink.textContent = 'Download PDF \u2192';
+                    resourceLink.setAttribute('href', '#');
+                    resourceLink.removeAttribute('target');
+                    resourceLink.removeAttribute('rel');
+                }
+            }
             if (post.date) {
                 var dateLine = card.querySelector('.awareness-date');
                 if (dateLine) { dateLine.textContent = formatPostDate(post.date); }
@@ -276,7 +312,7 @@
         }
     }
     function communityGrid(root, post) {
-        return post.type === 'Volunteer' ? root.getElementById('volunteer-grid') : post.type === 'Donate' ? root.querySelector('#donation .campaign-grid') : post.type === 'Awareness Campaign' ? root.querySelector('#awareness-campaigns .awareness-grid') : post.type === 'Blog' ? root.getElementById('blog-grid') : post.type === 'Success Story' ? root.getElementById('stories-grid') : root.getElementById('news-grid');
+        return post.type === 'Volunteer' ? root.getElementById('volunteer-grid') : post.type === 'Donate' ? root.querySelector('#donation .campaign-grid') : post.type === 'Awareness Campaign' ? root.querySelector('#awareness-campaigns .awareness-grid') : post.type === 'Educational Resources' ? root.querySelector('#educational-resources .awareness-grid') : post.type === 'Blog' ? root.getElementById('blog-grid') : post.type === 'Success Story' ? root.getElementById('stories-grid') : root.getElementById('news-grid');
     }
 
     function communityModalId(post) {
@@ -485,12 +521,14 @@
                 '<a href="#' + esc(targetId) + '">View opportunity \u2192</a></div>';
         } else {
             card.className = 'awareness-card';
-            inner = (post.image ? '<div class="awareness-img-wrap"><img src="' + esc(post.image) + '" alt="' + esc(post.title) + '" class="awareness-img"><span class="awareness-badge">' + esc(post.type) + '</span></div>' : '') +
+            var isResource = post.type === 'Educational Resources';
+            var imageArea = isResource ? '<div class="awareness-img-wrap">' + (post.image ? '<img src="' + esc(post.image) + '" alt="' + esc(post.title) + '" class="awareness-img">' : '<div class="awareness-img-placeholder" aria-hidden="true"></div>') + '<span class="awareness-badge">' + esc(post.resourceLabel || 'Resource') + '</span></div>' : (post.image ? '<div class="awareness-img-wrap"><img src="' + esc(post.image) + '" alt="' + esc(post.title) + '" class="awareness-img"><span class="awareness-badge">' + esc(post.type) + '</span></div>' : '');
+            inner = imageArea +
                 '<div class="awareness-body-content">' +
                 (when ? '<p class="awareness-date">' + esc(when) + '</p>' : '') +
                 '<h3 class="awareness-card-title">' + esc(post.title) + '</h3>' +
                 '<p class="awareness-excerpt">' + esc(post.story) + '</p>' +
-                '<a href="javascript:void(0);" data-community-open="' + esc(modalId) + '" class="awareness-link">Read more \u2192</a></div>';
+                (post.type === 'Educational Resources' ? '<a href="#" class="awareness-link">Download PDF \u2192</a>' : '<a href="javascript:void(0);" data-community-open="' + esc(modalId) + '" class="awareness-link">Read more \u2192</a>') + '</div>';
         }
         card.innerHTML = inner;
         grid.appendChild(card);
@@ -499,7 +537,7 @@
             syncCommunityDetailPage(root, post, data);
         } else {
             removeCommunityDetailPage(root, post);
-            syncCommunityModal(root, post, data);
+            if (post.type !== 'Educational Resources') { syncCommunityModal(root, post, data); }
             card.querySelectorAll('[data-community-open]').forEach(function (opener) {
                 opener.addEventListener('click', function () {
                     var modal = root.getElementById(opener.getAttribute('data-community-open'));
@@ -509,7 +547,7 @@
         }
     }
     function hideOrphanSeedCards(root, liveTitles) {
-        var cardSelector = '#news-grid article, #stories-grid article, #blog-grid article, #awareness-campaigns .awareness-grid article, #volunteer-grid article, #donation .campaign-grid article';
+        var cardSelector = '#news-grid article, #stories-grid article, #blog-grid article, #educational-resources .awareness-grid article, #awareness-campaigns .awareness-grid article, #volunteer-grid article, #donation .campaign-grid article';
         Array.prototype.forEach.call(root.querySelectorAll(cardSelector), function (card) {
             var heading = card.querySelector('h3');
             var title = heading && (heading.getAttribute('data-original-title') || heading.textContent.trim());

@@ -15,6 +15,48 @@
     var contentFilter = 'All';
 
     function get() { return store.read(); }
+    function importEducationalResourceCards(data) {
+        if (data.educationalResourceCardsImported) { return; }
+        var publicDocument = document;
+        try {
+            if (window.parent && window.parent.document) { publicDocument = window.parent.document; }
+        } catch (e) {}
+        var grid = publicDocument.querySelector('#educational-resources .awareness-grid');
+        if (!grid) { return; }
+        Array.prototype.forEach.call(grid.querySelectorAll('article.awareness-card'), function (card) {
+            var heading = card.querySelector('h3');
+            var title = heading ? heading.textContent.trim() : '';
+            if (!title) { return; }
+            var existing = data.posts.find(function (post) {
+                return post.type === 'Educational Resources' && (post.sourceTitle === title || (!post.sourceTitle && post.title === title));
+            });
+            var badge = card.querySelector('.awareness-badge');
+            if (existing) {
+                existing.sourceTitle = existing.sourceTitle || title;
+                existing.sourceKind = 'educational-resource';
+                existing.resourceLabel = existing.resourceLabel || (badge ? badge.textContent.trim() : 'Resource');
+                return;
+            }
+            var excerpt = card.querySelector('.awareness-excerpt');
+            var date = card.querySelector('.awareness-date');
+            var image = card.querySelector('img');
+            data.posts.push({
+                id: store.id(),
+                type: 'Educational Resources',
+                sourceKind: 'educational-resource',
+                sourceTitle: title,
+                title: title,
+                story: excerpt ? excerpt.textContent.trim() : '',
+                fullStory: excerpt ? excerpt.textContent.trim() : '',
+                image: image ? image.getAttribute('src') : '',
+                date: date ? date.textContent.trim() : '',
+                resourceLabel: badge ? badge.textContent.trim() : 'Resource',
+                status: 'Published'
+            });
+        });
+        data.educationalResourceCardsImported = true;
+        store.silentWrite(data);
+    }
     function showSaved() {
         var notice = document.querySelector('.admin-save-notice');
         if (!notice) {
@@ -50,7 +92,7 @@
         return '<select data-post-status="' + esc(item.id) + '"><option value="Published" ' + (item.status === 'Published' ? 'selected' : '') + '>Public</option><option value="Draft" ' + (item.status === 'Draft' ? 'selected' : '') + '>Hidden</option></select>';
     }
     function contentTypeSelect(value) {
-        return '<select data-field="type"><option ' + (value === 'News' ? 'selected' : '') + '>News</option><option ' + (value === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (value === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (value === 'Awareness Campaign' ? 'selected' : '') + '>Awareness Campaign</option><option ' + (value === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (value === 'Donate' ? 'selected' : '') + '>Donate</option></select>';
+        return '<select data-field="type"><option ' + (value === 'News' ? 'selected' : '') + '>News</option><option ' + (value === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (value === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (value === 'Educational Resources' ? 'selected' : '') + '>Educational Resources</option><option ' + (value === 'Awareness Campaign' ? 'selected' : '') + '>Awareness Campaign</option><option ' + (value === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (value === 'Donate' ? 'selected' : '') + '>Donate</option></select>';
     }
     function toDateInputValue(value) {
         var text = String(value || '');
@@ -65,6 +107,9 @@
         return '';
     }
     function dateField(post) {
+        if (post.type === 'Educational Resources') {
+            return '<input type="text" data-field="date" value="' + esc(post.date || '') + '" placeholder="e.g. PDF · Ages 5–7" aria-label="Resource format or audience">';
+        }
         return '<input type="date" data-field="date" value="' + toDateInputValue(post.date) + '" aria-label="When this post or event happens">';
     }
     function goalField(post) {
@@ -74,6 +119,7 @@
 
     function render() {
         var data = get();
+        importEducationalResourceCards(data);
         renderCurrentMentors(data);
         renderDonations(data);
         renderContent(data);
@@ -135,6 +181,7 @@
             '<td>' + field('title', post.title, 'Title') + '</td>' +
             '<td>' + storyField('story', post.story, 'Public card excerpt') + '</td>' +
             '<td>' + contentStoryField(post.fullStory || post.story) + '</td>' +
+            '<td>' + field('resourceLabel', post.resourceLabel || '', 'Resource label (e.g. Worksheet)') + '</td>' +
             '<td>' + imagePicker(post.image) + '</td>' +
             '<td>' + dateField(post) + '</td>' +
             '<td>' + goalField(post) + '</td>' +
@@ -168,12 +215,12 @@
         var query = contentQuery.trim().toLowerCase();
         var posts = data.posts.filter(function (post) {
             var matchesType = contentFilter === 'All' || post.type === contentFilter;
-            var searchable = [post.title, post.story, post.fullStory].join(' ').toLowerCase();
+            var searchable = [post.title, post.story, post.fullStory, post.resourceLabel].join(' ').toLowerCase();
             return matchesType && (!query || searchable.indexOf(query) !== -1);
         });
-        host.innerHTML = '<div class="content-tools"><label class="content-search"><span>Search content</span><input type="search" data-content-search value="' + esc(contentQuery) + '" placeholder="Search title or story"></label><label class="content-filter"><span>Filter by type</span><select data-content-filter><option ' + (contentFilter === 'All' ? 'selected' : '') + '>All</option><option ' + (contentFilter === 'News' ? 'selected' : '') + '>News</option><option ' + (contentFilter === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (contentFilter === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (contentFilter === 'Awareness Campaign' ? 'selected' : '') + '>Awareness Campaign</option><option ' + (contentFilter === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (contentFilter === 'Donate' ? 'selected' : '') + '>Donate</option></select></label></div>' +
+        host.innerHTML = '<div class="content-tools"><label class="content-search"><span>Search content</span><input type="search" data-content-search value="' + esc(contentQuery) + '" placeholder="Search title or story"></label><label class="content-filter"><span>Filter by type</span><select data-content-filter><option ' + (contentFilter === 'All' ? 'selected' : '') + '>All</option><option ' + (contentFilter === 'News' ? 'selected' : '') + '>News</option><option ' + (contentFilter === 'Blog' ? 'selected' : '') + '>Blog</option><option ' + (contentFilter === 'Success Story' ? 'selected' : '') + '>Success Story</option><option ' + (contentFilter === 'Educational Resources' ? 'selected' : '') + '>Educational Resources</option><option ' + (contentFilter === 'Awareness Campaign' ? 'selected' : '') + '>Awareness Campaign</option><option ' + (contentFilter === 'Volunteer' ? 'selected' : '') + '>Volunteer</option><option ' + (contentFilter === 'Donate' ? 'selected' : '') + '>Donate</option></select></label></div>' +
             '<div class="panel-heading"><div><p class="eyebrow">CONTENT</p></div><span class="record-count">' + posts.length + ' of ' + data.posts.length + ' posts</span><button type="button" class="secondary-button" data-new-post>+ New post</button></div>' +
-            '<div class="table-scroll"><table class="editable-table"><thead><tr><th>Post type</th><th>Title</th><th>Card excerpt</th><th>Full story</th><th>Image</th><th>Happens on</th><th>Goal \u20b1</th><th>Public</th><th>Action</th></tr></thead><tbody>' +
+            '<div class="table-scroll"><table class="editable-table"><thead><tr><th>Post type</th><th>Title</th><th>Card excerpt</th><th>Full story</th><th>Resource label</th><th>Image</th><th>Date / resource info</th><th>Goal \u20b1</th><th>Public</th><th>Action</th></tr></thead><tbody>' +
             posts.map(contentRow).join('') +
             '</tbody></table></div>';
     }
@@ -227,9 +274,15 @@
             var collection = row.dataset.kind === 'mentor' ? data.mentorApplications : row.dataset.kind === 'published-mentor' ? data.mentors : row.dataset.kind === 'partner' ? data.partners : data.posts;
             var item = collection.find(function (entry) { return entry.id === row.dataset.id; });
             if (item) {
+                var previousType = item.type;
                 if (!values.date) { delete values.date; }
                 if (values.targetAmount !== undefined) { values.targetAmount = values.targetAmount === '' ? '' : Number(values.targetAmount); }
                 Object.keys(values).forEach(function (key) { item[key] = values[key]; });
+                if (collection === data.posts && previousType !== item.type && (previousType === 'Educational Resources' || item.type === 'Educational Resources')) {
+                    item.sourceTitle = '';
+                    item.sourceKind = '';
+                    item.modalId = '';
+                }
                 if (collection === data.posts && item.type !== 'Donate') { item.targetAmount = ''; }
                 commit(data);
             }
@@ -295,9 +348,9 @@
             return;
         }
         if (button.hasAttribute('data-new-post')) {
-            contentFilter = 'All';
             contentQuery = '';
-            data.posts.unshift({ id: store.id(), type: 'News', title: '', story: '', fullStory: '', image: '', targetAmount: '', status: 'Draft', date: new Date().toISOString().slice(0, 10) });
+            var postType = contentFilter === 'All' ? 'News' : contentFilter;
+            data.posts.unshift({ id: store.id(), type: postType, title: '', story: '', fullStory: '', image: '', resourceLabel: postType === 'Educational Resources' ? 'Resource' : '', targetAmount: '', status: 'Draft', date: postType === 'Educational Resources' ? 'PDF' : new Date().toISOString().slice(0, 10) });
             commit(data);
             var firstPost = document.querySelector('#content-admin-app tr[data-kind="post"]');
             var postTitle = firstPost && firstPost.querySelector('[data-field="title"]');
