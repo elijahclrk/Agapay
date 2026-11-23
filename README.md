@@ -10,7 +10,7 @@ To connect volunteers, donors, mentors, partner schools and organizations in one
 
 ## Team Members & Roles
 - **Mycha Izlia B. Ogania** – Frontend Developer
-- **Hailey Micaela O. Lumanglas** – Backend Developer
+- **Hailey Micaela O. Lumanglas** – Frontend Developer
 - **Ariyhanna Venice A. Macawile** – Quality Assurance
 - **Ian R. Diaz** – Content Writer & Researcher
 - **Elijah Clark I. Refuncion** – Project Manager
